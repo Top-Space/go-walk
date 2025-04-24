@@ -66,7 +66,7 @@ export default function SelectAppsScreen() {
 
   const handleContinue = () => {
     if (selectedApps.length > 0) {
-      router.push('/(tabs)');
+      router.push('/auth');
     }
   };
 
@@ -124,7 +124,7 @@ export default function SelectAppsScreen() {
   );
 }
 
-function AppIcon({ app, index, isSelected, onSelect }) {
+function AppIcon({ app, index, isSelected, onSelect }: { app: any, index: number, isSelected: boolean, onSelect: () => void }) {
   const animatedStyle = useAnimatedStyle(() => {
     const delay = index * 100;
     return {

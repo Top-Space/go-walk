@@ -3,10 +3,29 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { theme } from '@/utils/theme';
+import CountryPicker, { Country } from 'react-native-country-picker-modal';
+import { useState } from 'react';
 
 export default function RegisterPhoneScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const [countryCode, setCountryCode] = useState('+1');
+  const [country, setCountry] = useState<Country>({
+    cca2: 'US',
+    callingCode: ['1'],
+    flag: '🇺🇸',
+    name: 'United States',
+    region: 'Americas',
+    subregion: 'North America',
+    currency: ['USD'],
+  });
+  const [showCountryPicker, setShowCountryPicker] = useState(false);
+
+  const onSelect = (country: Country) => {
+    setCountry(country);
+    setCountryCode(`+${country.callingCode[0]}`);
+    setShowCountryPicker(false);
+  };
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
@@ -21,9 +40,12 @@ export default function RegisterPhoneScreen() {
         </View>
 
         <View style={styles.inputContainer}>
-          <View style={styles.countryCode}>
-            <Text style={styles.countryCodeText}>+1</Text>
-          </View>
+          <Pressable 
+            style={styles.countryCode}
+            onPress={() => setShowCountryPicker(true)}
+          >
+            <Text style={styles.countryCodeText}>{countryCode}</Text>
+          </Pressable>
           <TextInput
             style={styles.input}
             placeholder="Your phone number"
@@ -32,6 +54,19 @@ export default function RegisterPhoneScreen() {
             autoFocus
           />
         </View>
+
+        <CountryPicker
+          withFilter
+          withFlag
+          withCountryNameButton
+          withCallingCode
+          withEmoji
+          onSelect={onSelect}
+          visible={showCountryPicker}
+          onClose={() => setShowCountryPicker(false)}
+          countryCode={country.cca2}
+          containerButtonStyle={styles.countryPickerButton}
+        />
 
         <Pressable
           style={({ pressed }) => [
@@ -100,6 +135,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     justifyContent: 'center',
     marginRight: 12,
+    minWidth: 80,
   },
   countryCodeText: {
     fontFamily: 'Inter-Medium',
@@ -148,5 +184,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-Medium',
     fontSize: 16,
     color: theme.colors.primary,
+  },
+  countryPickerButton: {
+    display: 'none',
   },
 });

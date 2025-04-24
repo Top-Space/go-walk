@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Chrome as Home, Lock, User } from 'lucide-react-native';
+import { Home, Lock, User } from 'lucide-react-native';
 import { theme } from '@/utils/theme';
 
 export default function TabLayout() {

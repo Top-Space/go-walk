@@ -1,9 +1,22 @@
 import { StyleSheet, View, Text, Pressable, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ChevronRight, Crown, CircleHelp as HelpCircle } from 'lucide-react-native';
+import { ChevronRight, Crown, CircleHelp as HelpCircle, LucideIcon } from 'lucide-react-native';
 import { theme } from '@/utils/theme';
 
-const SECTIONS = [
+interface SectionItem {
+  label: string;
+  value: string;
+  icon?: LucideIcon;
+  isPro?: boolean;
+  hasArrow?: boolean;
+}
+
+interface Section {
+  title: string;
+  items: SectionItem[];
+}
+
+const SECTIONS: Section[] = [
   {
     title: 'You',
     items: [

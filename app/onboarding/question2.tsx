@@ -69,7 +69,7 @@ export default function Question2Screen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.colors.background,
   },
   header: {
     paddingHorizontal: 24,

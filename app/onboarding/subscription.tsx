@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Pressable, Image } from 'react-native';
+import { StyleSheet, View, Text, Pressable, Image, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -14,11 +14,12 @@ export default function SubscriptionScreen() {
   };
 
   return (
-    <View 
+    <ScrollView 
       style={[
         styles.container, 
         { paddingTop: insets.top, paddingBottom: insets.bottom }
       ]}
+      contentContainerStyle={styles.scrollContent}
     >
       <Pressable style={styles.restoreButton}>
         <Text style={styles.restoreText}>Restore</Text>
@@ -116,7 +117,7 @@ export default function SubscriptionScreen() {
           </LinearGradient>
         </Pressable>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -124,6 +125,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    padding: 24,
   },
   restoreButton: {
     alignSelf: 'flex-end',

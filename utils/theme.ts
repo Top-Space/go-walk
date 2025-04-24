@@ -1,15 +1,15 @@
 export const theme = {
   colors: {
-    primary: '#7C3AED', // Purple
-    secondary: '#3B82F6', // Blue
+    primary: '#1E3A8A', // Dark Blue
+    secondary: '#2563EB', // Blue
     text: '#FFFFFF',
-    textSecondary: '#A1A1AA',
-    background: '#18181B',
-    backgroundSecondary: '#27272A',
-    border: '#3F3F46',
-    error: '#EF4444',
-    success: '#10B981',
-    warning: '#F59E0B',
+    textSecondary: '#E5E7EB',
+    background: '#000000', // Black
+    backgroundSecondary: '#1E1E1E',
+    border: '#374151',
+    error: '#DC2626',
+    success: '#059669',
+    warning: '#D97706',
   },
   fontWeights: {
     regular: '400',

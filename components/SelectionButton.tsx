@@ -50,17 +50,17 @@ const styles = StyleSheet.create({
   },
   unselectedBackground: {
     padding: 16,
-    backgroundColor: '#F5F5F7',
+    backgroundColor: theme.colors.backgroundSecondary,
     alignItems: 'center',
   },
   selectedLabel: {
     fontFamily: 'Inter-SemiBold',
     fontSize: 16,
-    color: '#FFFFFF',
+    color: theme.colors.text,
   },
   unselectedLabel: {
     fontFamily: 'Inter-Medium',
     fontSize: 16,
-    color: theme.colors.text,
+    color: theme.colors.textSecondary,
   },
 });
