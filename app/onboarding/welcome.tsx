@@ -1,10 +1,11 @@
 import { StyleSheet, View, Text, Pressable, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Video } from 'expo-av';
+import { Video, ResizeMode } from 'expo-av';
 import { ArrowRight } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { theme } from '@/utils/theme';
+import videoSource from '../../assets/videos/video_preview.mp4'
 
 export default function WelcomeScreen() {
   const router = useRouter();
@@ -19,9 +20,15 @@ export default function WelcomeScreen() {
     >
       <View style={styles.container}>
         <View style={styles.videoContainer}>
-          <View style={styles.videoPlaceholder}>
-            <Text style={styles.videoPlaceholderText}>App Demo Video</Text>
-          </View>
+          <Video
+            source={videoSource}
+            style={styles.video}
+            resizeMode={ResizeMode.COVER}
+            isLooping
+            shouldPlay
+            isMuted={false}
+            volume={1.0}
+          />
         </View>
         
         <View style={styles.contentContainer}>
@@ -68,27 +75,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
-    padding: 24,
+    
+    padding: 12,
   },
   videoContainer: {
-    width: '100%',
-    aspectRatio: 16 / 9,
+    width: '60%',
+    aspectRatio: 9 / 16,
     borderRadius: 16,
     overflow: 'hidden',
-    marginBottom: 32,
+    alignSelf: 'center',
+    marginBottom: 16,
+    backgroundColor: theme.colors.backgroundSecondary,
   },
-  videoPlaceholder: {
+  video: {
     width: '100%',
     height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: theme.colors.backgroundSecondary,
     borderRadius: 16,
-  },
-  videoPlaceholderText: {
-    fontFamily: 'Inter-Medium',
-    fontSize: 16,
-    color: theme.colors.textSecondary,
   },
   contentContainer: {
     alignItems: 'center',
@@ -103,9 +105,9 @@ const styles = StyleSheet.create({
   subtitle: {
     fontFamily: 'Inter-Regular',
     fontSize: 18,
-    marginBottom: 40,
+    marginBottom: 20,
     textAlign: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: 8,
     lineHeight: 26,
     color: theme.colors.textSecondary,
   },
@@ -113,7 +115,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 30,
     overflow: 'hidden',
-    marginBottom: 24,
+    marginBottom: 12,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -130,11 +132,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 16,
     paddingHorizontal: 24,
+    width: '100%',
   },
   buttonText: {
     color: theme.colors.text,
     fontFamily: 'Inter-SemiBold',
     fontSize: 18,
+    textAlign: 'center',
   },
   buttonIcon: {
     marginLeft: 8,

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, View, Text, ScrollView, Pressable } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Pressable, Image } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowDown, MessageCircle, BookOpen, Palette } from 'lucide-react-native';
 import { theme } from '@/utils/theme';
@@ -18,27 +18,25 @@ const USAGE_DATA = [
 
 const APPS = [
   { 
-    id: 'telegram',
-    name: 'Telegram',
+    id: 'instagram',
+    name: 'Instagram',
     category: 'Social',
     duration: '31m',
-    icon: MessageCircle,
-    color: '#2AABEE'
+    icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png',
   },
   {
-    id: 'elevenreader',
-    name: 'ElevenReader',
-    category: 'Information & Reading',
-    duration: '20m',
-    icon: BookOpen,
-    color: '#9333EA'
+    id: 'tiktok',
+    name: 'TikTok',
+    category: 'Social',
+    duration: '31m',
+    icon: 'https://i.pinimg.com/736x/e1/0e/3f/e10e3f21d3b4e0f40b04b8fee7f40da4.jpg',
   },
   {
-    id: 'vn',
-    name: 'VN',
-    category: 'Creativity',
+    id: 'youtube',
+    name: 'YouTube',
+    category: 'Entertainment',
     duration: '20m',
-    icon: Palette,
+    icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/2560px-YouTube_full-color_icon_%282017%29.svg.png',
     color: '#F59E0B'
   }
 ];
@@ -52,7 +50,7 @@ export default function HomeScreen() {
       style={[styles.container, { paddingTop: insets.top }]}
       showsVerticalScrollIndicator={false}
     >
-      <View style={styles.header}>
+     <View style={styles.header}>
         <Text style={styles.monthYear}>apr 2025</Text>
         <ScrollView 
           horizontal 
@@ -85,7 +83,7 @@ export default function HomeScreen() {
         </ScrollView>
       </View>
 
-      <View style={styles.stepsSection}>
+       <View style={styles.stepsSection}>
         <Text style={styles.sectionLabel}>your steps statistic</Text>
         <Text style={styles.stepsTitle}>
           You walked <Text style={styles.highlight}>2,000 steps</Text> — that's equal to{' '}
@@ -93,7 +91,7 @@ export default function HomeScreen() {
         </Text>
       </View>
 
-      <View style={styles.screenTimeSection}>
+   {/* <View style={styles.screenTimeSection}>
         <Text style={styles.sectionLabel}>your screen time</Text>
         <Text style={styles.screenTimeValue}>1h 49m</Text>
         <View style={styles.comparisonContainer}>
@@ -111,14 +109,18 @@ export default function HomeScreen() {
         <View style={styles.chartContainer}>
           <BarChart data={USAGE_DATA} />
         </View>
-      </View>
+      </View> */}
 
-      <View style={styles.usageSection}>
+         <View style={styles.usageSection}>
         <Text style={styles.sectionLabel}>your usage</Text>
         {APPS.map((app) => (
           <View key={app.id} style={styles.appItem}>
-            <View style={[styles.appIcon, { backgroundColor: app.color }]}>
-              <app.icon size={24} color="#FFFFFF" />
+            <View style={styles.appIcon}>
+              <Image 
+                source={{ uri: app.icon }} 
+                style={styles.appIconImage}
+                resizeMode="cover"
+              />
             </View>
             <View style={styles.appInfo}>
               <Text style={styles.appName}>{app.name}</Text>
@@ -242,10 +244,13 @@ const styles = StyleSheet.create({
   appIcon: {
     width: 48,
     height: 48,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderRadius: 24,
+    overflow: 'hidden',
     marginRight: 16,
+  },
+  appIconImage: {
+    width: '100%',
+    height: '100%',
   },
   appInfo: {
     flex: 1,

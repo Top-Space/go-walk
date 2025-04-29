@@ -7,12 +7,12 @@ const BLOCKED_APPS = [
   {
     id: 'instagram',
     name: 'Instagram',
-    icon: 'https://images.pexels.com/photos/1547726/pexels-photo-1547726.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png',
   },
   {
     id: 'tiktok',
     name: 'TikTok',
-    icon: 'https://images.pexels.com/photos/3628700/pexels-photo-3628700.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    icon: 'https://i.pinimg.com/736x/e1/0e/3f/e10e3f21d3b4e0f40b04b8fee7f40da4.jpg',
   },
 ];
 
@@ -94,8 +94,9 @@ const styles = StyleSheet.create({
   appIcon: {
     width: 60,
     height: 60,
-    borderRadius: 15,
+    borderRadius: 30,
     marginBottom: 8,
+    resizeMode: 'cover',
   },
   appName: {
     fontFamily: 'Inter-Medium',
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
   addAppIconContainer: {
     width: 60,
     height: 60,
-    borderRadius: 15,
+    borderRadius: 30,
     borderWidth: 2,
     borderColor: theme.colors.border,
     borderStyle: 'dashed',

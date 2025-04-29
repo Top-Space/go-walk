@@ -16,7 +16,7 @@ export default function Report3Screen() {
       ]}
     >
       <View style={styles.header}>
-        <ProgressBar progress={0.9} />
+        <ProgressBar progress={0.5} />
       </View>
 
       <View style={styles.content}>
@@ -27,13 +27,12 @@ export default function Report3Screen() {
         <Text style={styles.text}>
           of your life free from distractions, and help you achieve your dreams.
         </Text>
-
-        <Text style={styles.footnote}>
-          According to your profile combined with GoWalk program
-        </Text>
       </View>
 
       <View style={styles.footer}>
+        <Text style={styles.footnote}>
+          According to your profile combined with GoWalk program
+        </Text>
         <Pressable
           style={({ pressed }) => [
             styles.button,
@@ -82,7 +81,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: 'center',
     color: theme.colors.textSecondary,
-    marginTop: 48,
+    marginBottom: 24,
     paddingHorizontal: 24,
   },
   footer: {

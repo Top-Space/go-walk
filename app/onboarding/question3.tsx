@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft } from 'lucide-react-native';
 import ProgressBar from '@/components/ProgressBar';
 import SelectionButton from '@/components/SelectionButton';
-import { useOnboarding } from '@/contexts/OnboardingContext';
+import { useQuestion } from '@/contexts/QuestionContext';
 import { theme } from '@/utils/theme';
 
 const OPTIONS = [
@@ -20,7 +20,7 @@ const OPTIONS = [
 export default function Question3Screen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { answers, setAnswer } = useOnboarding();
+  const { answers, setAnswer } = useQuestion();
 
   const handleSelect = (option: string) => {
     setAnswer('occupation', option);
@@ -38,7 +38,7 @@ export default function Question3Screen() {
           <ArrowLeft size={24} color={theme.colors.text} />
         </Pressable>
         <View style={styles.progressContainer}>
-          <ProgressBar progress={0.6} />
+          <ProgressBar progress={0.66} />
         </View>
       </View>
 

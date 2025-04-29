@@ -16,32 +16,32 @@ const APPS = [
   {
     id: 'instagram',
     name: 'Instagram',
-    icon: 'https://images.pexels.com/photos/1547726/pexels-photo-1547726.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png',
   },
   {
     id: 'tiktok',
     name: 'TikTok',
-    icon: 'https://images.pexels.com/photos/3628700/pexels-photo-3628700.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    icon: 'https://i.pinimg.com/736x/e1/0e/3f/e10e3f21d3b4e0f40b04b8fee7f40da4.jpg',
   },
   {
     id: 'youtube',
     name: 'YouTube',
-    icon: 'https://images.pexels.com/photos/1339844/pexels-photo-1339844.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/2560px-YouTube_full-color_icon_%282017%29.svg.png',
   },
   {
     id: 'facebook',
     name: 'Facebook',
-    icon: 'https://images.pexels.com/photos/3654809/pexels-photo-3654809.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/2048px-Facebook_f_logo_%282019%29.svg.png',
   },
   {
-    id: 'twitter',
-    name: 'Twitter',
-    icon: 'https://images.pexels.com/photos/3654897/pexels-photo-3654897.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    id: 'x',
+    name: 'X',
+    icon: 'https://img.freepik.com/darmowe-wektory/nowy-projekt-ikony-x-logo-twittera-2023_1017-45418.jpg',
   },
   {
     id: 'snapchat',
     name: 'Snapchat',
-    icon: 'https://images.pexels.com/photos/3654898/pexels-photo-3654898.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    icon: 'https://animationvisarts.com/wp-content/uploads/2024/01/image.png',
   },
 ];
 
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
   appIconWrapper: {
     width: 80,
     height: 80,
-    borderRadius: 20,
+    borderRadius: 40,
     marginBottom: 8,
     overflow: 'hidden',
     backgroundColor: theme.colors.backgroundSecondary,
@@ -222,6 +222,7 @@ const styles = StyleSheet.create({
   appIcon: {
     width: '100%',
     height: '100%',
+    resizeMode: 'cover',
   },
   selectedOverlay: {
     ...StyleSheet.absoluteFillObject,

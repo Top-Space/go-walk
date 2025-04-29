@@ -1,8 +1,9 @@
-import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { StyleSheet, View, Text, Pressable, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ArrowUp, Info } from 'lucide-react-native';
+import { Info } from 'lucide-react-native';
 import { theme } from '@/utils/theme';
+import healthPermissionImage from '../../assets/images/ios-health-alert.png';
 
 export default function AccessHealthScreen() {
   const router = useRouter();
@@ -20,31 +21,20 @@ export default function AccessHealthScreen() {
           To track your steps on this iPhone, GoWalk will need your permission.
         </Text>
 
-        <View style={styles.popupIndicator}>
-          <ArrowUp size={32} color={theme.colors.primary} />
-        </View>
+        <Image 
+          source={healthPermissionImage}
+          style={styles.permissionImage}
+          resizeMode="contain"
+        />
+      </View>
 
-        <View style={styles.systemPopup}>
-          <Text style={styles.popupTitle}>"GoWalk" Would Like to Access Your Health Data</Text>
-          <Text style={styles.popupDescription}>
-            Providing GoWalk access will allow it to read your step count and help you 
-            exchange movement for time on distracting apps.
-          </Text>
-          <View style={styles.popupButtons}>
-            <Pressable
-              style={[styles.popupButton, styles.popupButtonPrimary]}
-              onPress={handleContinue}
-            >
-              <Text style={styles.popupButtonTextPrimary}>Continue</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.popupButton, styles.popupButtonSecondary]}
-              onPress={() => {}}
-            >
-              <Text style={styles.popupButtonTextSecondary}>Don't Allow</Text>
-            </Pressable>
-          </View>
-        </View>
+      <View style={[styles.bottomContainer, { paddingBottom: insets.bottom + 16 }]}>
+        <Pressable
+          style={styles.continueButton}
+          onPress={handleContinue}
+        >
+          <Text style={styles.continueButtonText}>Continue</Text>
+        </Pressable>
 
         <View style={styles.footer}>
           <View style={styles.securityInfo}>
@@ -87,62 +77,28 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     lineHeight: 24,
   },
-  popupIndicator: {
-    marginBottom: 16,
-  },
-  systemPopup: {
-    backgroundColor: theme.colors.backgroundSecondary,
-    borderRadius: 16,
-    padding: 20,
+  permissionImage: {
     width: '100%',
-    maxWidth: 400,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
+    height: 200,
+    marginVertical: 24,
   },
-  popupTitle: {
-    fontFamily: 'Inter-SemiBold',
-    fontSize: 18,
-    color: theme.colors.text,
-    marginBottom: 12,
+  bottomContainer: {
+    padding: 24,
+    backgroundColor: theme.colors.background,
   },
-  popupDescription: {
-    fontFamily: 'Inter-Regular',
-    fontSize: 14,
-    color: theme.colors.textSecondary,
-    lineHeight: 20,
-    marginBottom: 20,
-  },
-  popupButtons: {
-    gap: 12,
-  },
-  popupButton: {
-    paddingVertical: 14,
+  continueButton: {
+    backgroundColor: theme.colors.primary,
+    paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
+    marginBottom: 24,
   },
-  popupButtonPrimary: {
-    backgroundColor: theme.colors.primary,
-  },
-  popupButtonSecondary: {
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: theme.colors.border,
-  },
-  popupButtonTextPrimary: {
+  continueButtonText: {
     fontFamily: 'Inter-SemiBold',
     fontSize: 16,
     color: theme.colors.text,
   },
-  popupButtonTextSecondary: {
-    fontFamily: 'Inter-SemiBold',
-    fontSize: 16,
-    color: theme.colors.textSecondary,
-  },
   footer: {
-    marginTop: 40,
     alignItems: 'center',
     gap: 16,
   },

@@ -80,20 +80,6 @@ export default function SubscriptionScreen() {
           </View>
         </View>
 
-        <View style={styles.trustBadges}>
-          <Image
-            source={{ uri: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1600" }}
-            style={styles.trustBadge}
-          />
-          <Image
-            source={{ uri: "https://images.pexels.com/photos/3183153/pexels-photo-3183153.jpeg?auto=compress&cs=tinysrgb&w=1600" }}
-            style={styles.trustBadge}
-          />
-          <Image
-            source={{ uri: "https://images.pexels.com/photos/3183132/pexels-photo-3183132.jpeg?auto=compress&cs=tinysrgb&w=1600" }}
-            style={styles.trustBadge}
-          />
-        </View>
 
         <View style={styles.planSection}>
           <Text style={styles.planTitle}>Try Free For 3 Days</Text>

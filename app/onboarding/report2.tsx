@@ -16,7 +16,7 @@ export default function Report2Screen() {
       ]}
     >
       <View style={styles.header}>
-        <ProgressBar progress={0.8} />
+        <ProgressBar progress={0.25} />
       </View>
 
       <View style={styles.content}>
@@ -33,13 +33,12 @@ export default function Report2Screen() {
         <Text style={styles.text}>
           Yep, you read this right.
         </Text>
-
-        <Text style={styles.footnote}>
-          Projection off your current Screen Time habits, based on an average 78 waking hours each day.
-        </Text>
       </View>
 
       <View style={styles.footer}>
+        <Text style={styles.footnote}>
+          Projection off your current Screen Time habits, based on an average 78 waking hours each day.
+        </Text>
         <Pressable
           style={({ pressed }) => [
             styles.button,
@@ -91,7 +90,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: 'center',
     color: theme.colors.textSecondary,
-    marginTop: 48,
+    marginBottom: 24,
     paddingHorizontal: 24,
   },
   footer: {

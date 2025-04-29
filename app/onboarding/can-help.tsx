@@ -1,8 +1,111 @@
-import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { StyleSheet, View, Text, Pressable, Animated } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Clock, Brain, TrendingUp, Calendar } from 'lucide-react-native';
 import { theme } from '@/utils/theme';
+import { useEffect, useRef } from 'react';
+
+const FistBumpAnimation = () => {
+  const router = useRouter();
+  const leftFistAnim = useRef(new Animated.Value(0)).current;
+  const rightFistAnim = useRef(new Animated.Value(0)).current;
+  const scaleAnim = useRef(new Animated.Value(2)).current;
+
+  const animateBump = () => {
+    Animated.sequence([
+      Animated.parallel([
+        Animated.timing(leftFistAnim, {
+          toValue: 1,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(rightFistAnim, {
+          toValue: 1,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+      ]),
+      Animated.parallel([
+        Animated.timing(leftFistAnim, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(rightFistAnim, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.sequence([
+          Animated.timing(scaleAnim, {
+            toValue: 1.2,
+            duration: 100,
+            useNativeDriver: true,
+          }),
+          Animated.timing(scaleAnim, {
+            toValue: 1,
+            duration: 100,
+            useNativeDriver: true,
+          }),
+        ]),
+      ]),
+    ]).start();
+  };
+
+  return (
+    <View style={styles.fistBumpContainer}>
+      <Animated.Text
+        style={[
+          styles.emoji,
+          {
+            transform: [
+              {
+                translateX: leftFistAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [-30, 0],
+                }),
+              },
+              {
+                scale: scaleAnim,
+              },
+            ],
+          },
+        ]}
+      >
+        🤜
+      </Animated.Text>
+      <Animated.Text
+        style={[
+          styles.emoji,
+          {
+            transform: [
+              {
+                translateX: rightFistAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [30, 0],
+                }),
+              },
+              {
+                scale: scaleAnim,
+              },
+            ],
+          },
+        ]}
+      >
+        🤛
+      </Animated.Text>
+      <Pressable
+        style={styles.overlay}
+        onPress={() => {
+          animateBump();
+          setTimeout(() => {
+            router.push('/onboarding/subscription');
+          }, 600);
+        }}
+      />
+    </View>
+  );
+};
 
 export default function CanHelpScreen() {
   const router = useRouter();
@@ -59,16 +162,11 @@ export default function CanHelpScreen() {
         </View>
 
         <View style={styles.footer}>
-          <Text style={styles.emoji}>🤜🤛</Text>
+          <FistBumpAnimation />
           <Text style={styles.footerText}>Let's solidify it with a fist bump</Text>
           <Text style={styles.subtext}>Tap to continue</Text>
         </View>
       </View>
-
-      <Pressable
-        style={styles.overlay}
-        onPress={() => router.push('/onboarding/subscription')}
-      />
     </View>
   );
 }
@@ -137,5 +235,11 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
+  },
+  fistBumpContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
   },
 });

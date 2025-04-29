@@ -16,7 +16,7 @@ export default function Report1Screen() {
       ]}
     >
       <View style={styles.header}>
-        <ProgressBar progress={0.7} />
+        <ProgressBar progress={0.0} />
       </View>
 
       <View style={styles.content}>

@@ -40,33 +40,36 @@ export default function RegisterPhoneScreen() {
         </View>
 
         <View style={styles.inputContainer}>
-          <Pressable 
-            style={styles.countryCode}
-            onPress={() => setShowCountryPicker(true)}
-          >
-            <Text style={styles.countryCodeText}>{countryCode}</Text>
-          </Pressable>
+          <CountryPicker
+            withFilter
+            withFlag
+            withCountryNameButton={false}
+            withCallingCodeButton
+            withEmoji
+            onSelect={onSelect}
+            countryCode={country.cca2}
+            containerButtonStyle={styles.countryCode}
+            theme={{
+              primaryColor: theme.colors.primary,
+              backgroundColor: theme.colors.background,
+              onBackgroundTextColor: theme.colors.text,
+              filterPlaceholderTextColor: theme.colors.textSecondary,
+              activeOpacity: 0.7,
+              itemHeight: 50,
+              flagSize: 24,
+              flagSizeButton: 24,
+              fontSize: 16,
+              fontFamily: 'Inter-Medium'
+            }}
+          />
           <TextInput
             style={styles.input}
-            placeholder="Your phone number"
+            placeholder="000 000 0000"
             placeholderTextColor={theme.colors.textSecondary}
             keyboardType="phone-pad"
             autoFocus
           />
         </View>
-
-        <CountryPicker
-          withFilter
-          withFlag
-          withCountryNameButton
-          withCallingCode
-          withEmoji
-          onSelect={onSelect}
-          visible={showCountryPicker}
-          onClose={() => setShowCountryPicker(false)}
-          countryCode={country.cca2}
-          containerButtonStyle={styles.countryPickerButton}
-        />
 
         <Pressable
           style={({ pressed }) => [
@@ -136,6 +139,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 12,
     minWidth: 80,
+    height: 48,
   },
   countryCodeText: {
     fontFamily: 'Inter-Medium',
@@ -155,7 +159,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 30,
     overflow: 'hidden',
-    marginBottom: 24,
+    marginBottom: 16,
   },
   buttonPressed: {
     opacity: 0.9,
@@ -173,7 +177,7 @@ const styles = StyleSheet.create({
   footer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 'auto',
+    marginTop: 0,
   },
   footerText: {
     fontFamily: 'Inter-Regular',
