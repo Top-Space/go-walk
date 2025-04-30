@@ -36,5 +36,5 @@ export default function RootScreen() {
   }
 
   // Redirect directly to the welcome screen
-  return <Redirect href="/auth" />;
+  return <Redirect href="/onboarding/welcome" />;
 }

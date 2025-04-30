@@ -11,42 +11,60 @@ import { theme } from '@/utils/theme';
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
+interface UsageData {
+  hour: string;
+  minutes: number;
+}
+
+interface BarChartProps {
+  data: UsageData[];
+}
+
+interface LineChartData {
+  day: string;
+  hours: number;
+}
+
+interface LineChartProps {
+  data: LineChartData[];
+}
+
 // BarChart Component
-export function BarChart({ data }) {
+export function BarChart({ data }: BarChartProps) {
   const [width, setWidth] = useState(Dimensions.get('window').width - 64);
-  const barWidth = (width - 40) / data.length - 10;
-  const maxValue = Math.max(...data.map(item => item.steps)) * 1.1;
-  const heightScale = 180 / maxValue;
+  const barWidth = (width - 40) / data.length - 1;
+  const maxValue = Math.max(...data.map(item => item.minutes)) * 1.1;
+  const heightScale = 160 / maxValue;
   const barHeights = data.map(() => useSharedValue(0));
 
   useEffect(() => {
     data.forEach((_, index) => {
-      barHeights[index].value = withTiming(data[index].steps * heightScale, { duration: 1000 });
+      barHeights[index].value = withTiming(data[index].minutes * heightScale, { duration: 1000 });
     });
   }, [data]);
 
   return (
-    <View style={styles.chartContainer} onLayout={(event) => {
+    <View style={[styles.chartContainer, { paddingHorizontal: 0 }]} onLayout={(event) => {
       setWidth(event.nativeEvent.layout.width);
     }}>
-      <Svg width={width} height={220}>
+      <Svg width={width} height={200}>
         {/* Horizontal grid lines */}
-        <Line x1="40" y1="200" x2={width} y2="200" stroke="#E5E5EA" strokeWidth="1" />
-        <Line x1="40" y1="150" x2={width} y2="150" stroke="#E5E5EA" strokeWidth="1" />
-        <Line x1="40" y1="100" x2={width} y2="100" stroke="#E5E5EA" strokeWidth="1" />
-        <Line x1="40" y1="50" x2={width} y2="50" stroke="#E5E5EA" strokeWidth="1" />
+        <Line x1="20" y1="180" x2={width} y2="180" stroke="#E5E5EA" strokeWidth="1" />
+        <Line x1="20" y1="135" x2={width} y2="135" stroke="#E5E5EA" strokeWidth="1" />
+        <Line x1="20" y1="90" x2={width} y2="90" stroke="#E5E5EA" strokeWidth="1" />
+        <Line x1="20" y1="45" x2={width} y2="45" stroke="#E5E5EA" strokeWidth="1" />
         
         {/* Vertical axis */}
-        <Line x1="40" y1="0" x2="40" y2="200" stroke="#E5E5EA" strokeWidth="1" />
+        <Line x1="20" y1="0" x2="20" y2="180" stroke="#E5E5EA" strokeWidth="1" />
         
         {/* Bars */}
         {data.map((item, index) => {
-          const x = 45 + index * ((width - 50) / data.length);
+          const x = 25 + index * ((width - 30) / data.length);
           
           const animatedProps = useAnimatedProps(() => {
             return {
               height: barHeights[index].value,
-              y: 200 - barHeights[index].value,
+              y: 180 - barHeights[index].value,
             };
           });
           
@@ -61,12 +79,12 @@ export function BarChart({ data }) {
               />
               <SvgText
                 x={x + barWidth / 2}
-                y={215}
+                y={195}
                 textAnchor="middle"
-                fontSize="12"
+                fontSize="9"
                 fill={theme.colors.textSecondary}
               >
-                {item.day}
+                {item.hour}
               </SvgText>
             </View>
           );
@@ -77,7 +95,7 @@ export function BarChart({ data }) {
 }
 
 // LineChart Component
-export function LineChart({ data }) {
+export function LineChart({ data }: LineChartProps) {
   const [width, setWidth] = useState(Dimensions.get('window').width - 64);
   const maxValue = Math.max(...data.map(item => item.hours)) * 1.1;
   const heightScale = 180 / maxValue;
@@ -177,5 +195,6 @@ export function LineChart({ data }) {
 const styles = StyleSheet.create({
   chartContainer: {
     width: '100%',
+    marginHorizontal: 0,
   },
 });
