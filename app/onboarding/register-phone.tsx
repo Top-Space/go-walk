@@ -3,29 +3,15 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { theme } from '@/utils/theme';
-import CountryPicker, { Country } from 'react-native-country-picker-modal';
+import { CountryPicker } from 'react-native-country-codes-picker';
+import type { CountryItem } from 'react-native-country-codes-picker';
 import { useState } from 'react';
 
 export default function RegisterPhoneScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const [countryCode, setCountryCode] = useState('+1');
-  const [country, setCountry] = useState<Country>({
-    cca2: 'US',
-    callingCode: ['1'],
-    flag: '🇺🇸',
-    name: 'United States',
-    region: 'Americas',
-    subregion: 'North America',
-    currency: ['USD'],
-  });
   const [showCountryPicker, setShowCountryPicker] = useState(false);
-
-  const onSelect = (country: Country) => {
-    setCountry(country);
-    setCountryCode(`+${country.callingCode[0]}`);
-    setShowCountryPicker(false);
-  };
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
@@ -40,28 +26,12 @@ export default function RegisterPhoneScreen() {
         </View>
 
         <View style={styles.inputContainer}>
-          <CountryPicker
-            withFilter
-            withFlag
-            withCountryNameButton={false}
-            withCallingCodeButton
-            withEmoji
-            onSelect={onSelect}
-            countryCode={country.cca2}
-            containerButtonStyle={styles.countryCode}
-            theme={{
-              primaryColor: theme.colors.primary,
-              backgroundColor: theme.colors.background,
-              onBackgroundTextColor: theme.colors.text,
-              filterPlaceholderTextColor: theme.colors.textSecondary,
-              activeOpacity: 0.7,
-              itemHeight: 50,
-              flagSize: 24,
-              flagSizeButton: 24,
-              fontSize: 16,
-              fontFamily: 'Inter-Medium'
-            }}
-          />
+          <Pressable 
+            style={styles.countryCode}
+            onPress={() => setShowCountryPicker(true)}
+          >
+            <Text style={styles.countryCodeText}>{countryCode}</Text>
+          </Pressable>
           <TextInput
             style={styles.input}
             placeholder="000 000 0000"
@@ -70,6 +40,37 @@ export default function RegisterPhoneScreen() {
             autoFocus
           />
         </View>
+
+        <CountryPicker
+          show={showCountryPicker}
+          lang="en"
+          pickerButtonOnPress={(item: CountryItem) => {
+            setCountryCode(item.dial_code);
+            setShowCountryPicker(false);
+          }}
+          onBackdropPress={() => setShowCountryPicker(false)}
+          style={{
+            modal: {
+              backgroundColor: theme.colors.background,
+            },
+            textInput: {
+              backgroundColor: theme.colors.backgroundSecondary,
+              color: theme.colors.text,
+              fontFamily: 'Inter-Medium',
+            },
+            countryButtonStyles: {
+              backgroundColor: theme.colors.backgroundSecondary,
+            },
+            countryName: {
+              color: theme.colors.text,
+              fontFamily: 'Inter-Medium',
+            },
+            dialCode: {
+              color: theme.colors.textSecondary,
+              fontFamily: 'Inter-Medium',
+            },
+          }}
+        />
 
         <Pressable
           style={({ pressed }) => [
