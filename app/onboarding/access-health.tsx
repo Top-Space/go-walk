@@ -30,7 +30,10 @@ export default function AccessHealthScreen() {
 
       <View style={[styles.bottomContainer, { paddingBottom: insets.bottom + 16 }]}>
         <Pressable
-          style={styles.continueButton}
+          style={({ pressed }) => [
+            styles.continueButton,
+            pressed && styles.buttonPressed,
+          ]}
           onPress={handleContinue}
         >
           <Text style={styles.continueButtonText}>Continue</Text>
@@ -89,7 +92,7 @@ const styles = StyleSheet.create({
   continueButton: {
     backgroundColor: theme.colors.primary,
     paddingVertical: 16,
-    borderRadius: 12,
+    borderRadius: 100,
     alignItems: 'center',
     marginBottom: 24,
   },

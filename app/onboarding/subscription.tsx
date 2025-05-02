@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Pressable, Image, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, Pressable, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,7 +10,7 @@ export default function SubscriptionScreen() {
   const insets = useSafeAreaInsets();
 
   const handleSubscribe = () => {
-    router.push('/onboarding/select-apps');
+    router.push('/onboarding/subscription-plan');
   };
 
   return (
@@ -78,12 +78,6 @@ export default function SubscriptionScreen() {
               </Text>
             </View>
           </View>
-        </View>
-
-
-        <View style={styles.planSection}>
-          <Text style={styles.planTitle}>Try Free For 3 Days</Text>
-          <Text style={styles.planPrice}>$29.99 / year</Text>
         </View>
 
         <Pressable
@@ -176,38 +170,10 @@ const styles = StyleSheet.create({
     color: theme.colors.textSecondary,
     lineHeight: 20,
   },
-  trustBadges: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 16,
-    marginBottom: 32,
-  },
-  trustBadge: {
-    width: 40,
-    height: 40,
-    borderRadius: 8,
-  },
-  planSection: {
-    backgroundColor: theme.colors.backgroundSecondary,
-    borderRadius: 16,
-    padding: 20,
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  planTitle: {
-    fontFamily: 'Inter-Bold',
-    fontSize: 20,
-    color: theme.colors.text,
-    marginBottom: 8,
-  },
-  planPrice: {
-    fontFamily: 'Inter-Regular',
-    fontSize: 16,
-    color: theme.colors.textSecondary,
-  },
   button: {
-    borderRadius: 30,
+    borderRadius: 100,
     overflow: 'hidden',
+    marginTop: 32,
   },
   buttonPressed: {
     opacity: 0.9,

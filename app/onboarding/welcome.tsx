@@ -1,11 +1,11 @@
-import { StyleSheet, View, Text, Pressable, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Video, ResizeMode } from 'expo-av';
 import { ArrowRight } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { theme } from '@/utils/theme';
-import videoSource from '../../assets/videos/video_preview.mp4'
+import Button from '@/components/Button';
+import videoSource from '../../assets/videos/video_preview.mp4';
 
 export default function WelcomeScreen() {
   const router = useRouter();
@@ -37,29 +37,18 @@ export default function WelcomeScreen() {
             Starting today, let's focus better and accomplish your dreams
           </Text>
           
-          <Pressable
-            style={({ pressed }) => [
-              styles.button,
-              pressed && styles.buttonPressed,
-            ]}
-            onPress={() => router.push('/onboarding/question1')}
-          >
-            <LinearGradient
-              colors={[theme.colors.primary, theme.colors.secondary]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={styles.gradient}
-            >
-              <Text style={styles.buttonText}>Get Started</Text>
-              <ArrowRight size={20} color="white" style={styles.buttonIcon} />
-            </LinearGradient>
-          </Pressable>
-          
-          <View style={styles.loginContainer}>
-            <Text style={styles.loginText}>Already have an account? </Text>
-            <Pressable onPress={() => router.push('/onboarding/login')}>
-              <Text style={styles.loginLink}>Sign in</Text>
-            </Pressable>
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Get Started"
+              onPress={() => router.push('/onboarding/question1')}
+              style={styles.button}
+            />
+            <Button
+              title="Sign in"
+              variant="secondary"
+              onPress={() => router.push('/onboarding/login')}
+              style={styles.signInButton}
+            />
           </View>
         </View>
       </View>
@@ -75,8 +64,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
-    
-    padding: 12,
+    padding: 24,
   },
   videoContainer: {
     width: '60%',
@@ -105,56 +93,21 @@ const styles = StyleSheet.create({
   subtitle: {
     fontFamily: 'Inter-Regular',
     fontSize: 18,
-    marginBottom: 20,
+    marginBottom: 32,
     textAlign: 'center',
     paddingHorizontal: 8,
     lineHeight: 26,
     color: theme.colors.textSecondary,
   },
+  buttonContainer: {
+    width: '100%',
+    gap: 12,
+  },
   button: {
     width: '100%',
-    borderRadius: 30,
-    overflow: 'hidden',
-    marginBottom: 12,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
   },
-  buttonPressed: {
-    opacity: 0.9,
-    transform: [{ scale: 0.98 }],
-  },
-  gradient: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 24,
+  signInButton: {
     width: '100%',
-  },
-  buttonText: {
-    color: theme.colors.text,
-    fontFamily: 'Inter-SemiBold',
-    fontSize: 18,
-    textAlign: 'center',
-  },
-  buttonIcon: {
-    marginLeft: 8,
-  },
-  loginContainer: {
-    flexDirection: 'row',
-    marginTop: 8,
-  },
-  loginText: {
-    fontFamily: 'Inter-Regular',
-    fontSize: 16,
-    color: theme.colors.textSecondary,
-  },
-  loginLink: {
-    fontFamily: 'Inter-Medium',
-    fontSize: 16,
-    color: theme.colors.primary,
+    backgroundColor: theme.colors.backgroundSecondary,
   },
 });

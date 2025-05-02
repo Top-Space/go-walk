@@ -32,9 +32,9 @@ interface LineChartProps {
 // BarChart Component
 export function BarChart({ data }: BarChartProps) {
   const [width, setWidth] = useState(Dimensions.get('window').width - 64);
-  const barWidth = (width - 40) / data.length - 1;
-  const maxValue = Math.max(...data.map(item => item.minutes)) * 1.1;
-  const heightScale = 160 / maxValue;
+  const barWidth = (width - 80) / data.length - 8;
+  const maxValue = 1000;
+  const heightScale = 180 / maxValue;
   const barHeights = data.map(() => useSharedValue(0));
 
   useEffect(() => {
@@ -43,28 +43,49 @@ export function BarChart({ data }: BarChartProps) {
     });
   }, [data]);
 
+  const yAxisLabels = [1000, 750, 500, 250, 0];
+
   return (
-    <View style={[styles.chartContainer, { paddingHorizontal: 0 }]} onLayout={(event) => {
+    <View style={styles.chartContainer} onLayout={(event) => {
       setWidth(event.nativeEvent.layout.width);
     }}>
-      <Svg width={width} height={200}>
+      <Svg width={width} height={240}>
+        {/* Y-axis labels */}
+        {yAxisLabels.map((label, index) => (
+          <SvgText
+            key={index}
+            x="20"
+            y={30 + (index * 45)}
+            textAnchor="end"
+            fontSize="12"
+            fill={theme.colors.textSecondary}
+          >
+            {label}
+          </SvgText>
+        ))}
+
         {/* Horizontal grid lines */}
-        <Line x1="20" y1="180" x2={width} y2="180" stroke="#E5E5EA" strokeWidth="1" />
-        <Line x1="20" y1="135" x2={width} y2="135" stroke="#E5E5EA" strokeWidth="1" />
-        <Line x1="20" y1="90" x2={width} y2="90" stroke="#E5E5EA" strokeWidth="1" />
-        <Line x1="20" y1="45" x2={width} y2="45" stroke="#E5E5EA" strokeWidth="1" />
-        
-        {/* Vertical axis */}
-        <Line x1="20" y1="0" x2="20" y2="180" stroke="#E5E5EA" strokeWidth="1" />
+        {yAxisLabels.map((_, index) => (
+          <Line
+            key={index}
+            x1="40"
+            y1={30 + (index * 45)}
+            x2={width}
+            y2={30 + (index * 45)}
+            stroke={theme.colors.border}
+            strokeWidth="1"
+            opacity={0.2}
+          />
+        ))}
         
         {/* Bars */}
         {data.map((item, index) => {
-          const x = 25 + index * ((width - 30) / data.length);
+          const x = 50 + index * ((width - 60) / data.length);
           
           const animatedProps = useAnimatedProps(() => {
             return {
               height: barHeights[index].value,
-              y: 180 - barHeights[index].value,
+              y: 210 - barHeights[index].value,
             };
           });
           
@@ -74,14 +95,14 @@ export function BarChart({ data }: BarChartProps) {
                 x={x}
                 width={barWidth}
                 fill={theme.colors.primary}
-                rx={4}
+                rx={8}
                 animatedProps={animatedProps}
               />
               <SvgText
                 x={x + barWidth / 2}
-                y={195}
+                y={230}
                 textAnchor="middle"
-                fontSize="9"
+                fontSize="12"
                 fill={theme.colors.textSecondary}
               >
                 {item.hour}
@@ -128,9 +149,8 @@ export function LineChart({ data }: LineChartProps) {
   
   const animatedProps = useAnimatedProps(() => {
     const pathParts = pathString.split(' ');
-    let animatedPath = pathParts[0]; // Start with M x y
+    let animatedPath = pathParts[0];
     
-    // Animate each line segment
     for (let i = 1; i < pathParts.length; i += 3) {
       if (i + 2 < pathParts.length) {
         animatedPath += ` ${pathParts[i]} ${pathParts[i+1]} ${pathParts[i+2]}`;

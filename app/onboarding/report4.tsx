@@ -21,6 +21,16 @@ export default function Report4Screen() {
       </View>
 
       <View style={styles.content}>
+        <View style={styles.emojiContainer}>
+          <LinearGradient
+            colors={[theme.colors.primary, theme.colors.secondary]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.emojiBackground}
+          >
+            <Text style={styles.emoji}>🚀</Text>
+          </LinearGradient>
+        </View>
         <Text style={styles.title}>Let's take the first step:</Text>
         <Text style={styles.text}>
           GoWalk will connect to your Screen Time to give you a personalized focus report.
@@ -63,6 +73,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 32,
   },
+  emojiContainer: {
+    marginBottom: 32,
+    alignItems: 'center',
+  },
+  emojiBackground: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emoji: {
+    fontSize: 80,
+  },
   title: {
     fontFamily: 'Inter-Bold',
     fontSize: 24,
@@ -80,7 +104,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   button: {
-    borderRadius: 30,
+    borderRadius: 100,
     overflow: 'hidden',
   },
   buttonPressed: {

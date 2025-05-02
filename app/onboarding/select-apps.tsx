@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
     borderTopColor: theme.colors.border,
   },
   button: {
-    borderRadius: 30,
+    borderRadius: 100,
     overflow: 'hidden',
   },
   buttonDisabled: {

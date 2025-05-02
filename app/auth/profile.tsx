@@ -7,12 +7,7 @@ import {
   Alert,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import {
-  ChevronRight,
-  Crown,
-  CircleHelp as HelpCircle,
-  LucideIcon,
-} from "lucide-react-native";
+import { ChevronRight, Crown, CircleHelp as HelpCircle, Video as LucideIcon } from "lucide-react-native";
 import { theme } from "@/utils/theme";
 
 interface SectionItem {
@@ -113,9 +108,10 @@ export default function ProfileScreen() {
             {section.items.map((item, index) => (
               <Pressable
                 key={item.label}
-                style={[
+                style={({ pressed }) => [
                   styles.item,
                   index < section.items.length - 1 && styles.itemBorder,
+                  pressed && styles.itemPressed,
                 ]}
               >
                 <Text style={styles.itemLabel}>{item.label}</Text>
@@ -149,13 +145,19 @@ export default function ProfileScreen() {
 
         <View style={[styles.section, styles.dangerSection]}>
           <Pressable
-            style={[styles.dangerButton, styles.logoutButton]}
+            style={({ pressed }) => [
+              styles.dangerButton,
+              pressed && styles.buttonPressed,
+            ]}
             onPress={handleLogout}
           >
             <Text style={styles.dangerButtonText}>Logout</Text>
           </Pressable>
           <Pressable
-            style={[styles.dangerButton, styles.deleteButton]}
+            style={({ pressed }) => [
+              styles.deleteButton,
+              pressed && styles.buttonPressed,
+            ]}
             onPress={handleDeleteProfile}
           >
             <Text style={[styles.dangerButtonText, styles.deleteButtonText]}>
@@ -181,11 +183,12 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontFamily: "Inter-Bold",
-    fontSize: 24,
+    fontSize: 34,
     color: theme.colors.text,
   },
   content: {
     padding: 20,
+    gap: 24,
   },
   section: {
     backgroundColor: theme.colors.backgroundSecondary,
@@ -197,9 +200,10 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontFamily: "Inter-SemiBold",
-    fontSize: 16,
-    color: theme.colors.text,
+    fontSize: 14,
+    color: theme.colors.textSecondary,
     padding: 16,
+    textTransform: 'uppercase',
   },
   item: {
     flexDirection: "row",
@@ -207,28 +211,34 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 16,
     backgroundColor: theme.colors.background,
+    marginHorizontal: 8,
+    borderRadius: 16,
+    marginBottom: 8,
+  },
+  itemPressed: {
+    opacity: 0.8,
+    transform: [{ scale: 0.98 }],
   },
   itemBorder: {
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.border,
+    borderBottomWidth: 0,
   },
   itemLabel: {
     fontFamily: "Inter-Medium",
-    fontSize: 16,
+    fontSize: 17,
     color: theme.colors.text,
   },
   itemValue: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 8,
   },
   itemIcon: {
-    marginRight: 8,
+    marginRight: 4,
   },
   itemValueText: {
     fontFamily: "Inter-Regular",
-    fontSize: 16,
+    fontSize: 17,
     color: theme.colors.textSecondary,
-    marginRight: 8,
   },
   itemValueTextPro: {
     color: theme.colors.primary,
@@ -237,25 +247,27 @@ const styles = StyleSheet.create({
   dangerSection: {
     marginTop: 20,
     backgroundColor: "transparent",
+    gap: 12,
   },
   dangerButton: {
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 12,
-    backgroundColor: theme.colors.backgroundSecondary,
-    borderWidth: 1,
-    borderColor: theme.colors.border,
-  },
-  logoutButton: {
-    backgroundColor: theme.colors.backgroundSecondary,
+    height: 36,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 100,
   },
   deleteButton: {
-    backgroundColor: theme.colors.backgroundSecondary,
-    borderColor: theme.colors.error,
+    height: 36,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 100,
+  },
+  buttonPressed: {
+    opacity: 0.8,
+    transform: [{ scale: 0.98 }],
   },
   dangerButtonText: {
     fontFamily: "Inter-Medium",
-    fontSize: 16,
+    fontSize: 17,
     textAlign: "center",
     color: theme.colors.text,
   },

@@ -75,6 +75,11 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: theme.colors.secondary,
     marginVertical: 16,
+    textAlign: 'center',
+  },
+  footer: {
+    paddingHorizontal: 24,
+    paddingVertical: 16,
   },
   footnote: {
     fontFamily: 'Inter-Regular',
@@ -84,13 +89,9 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     paddingHorizontal: 24,
   },
-  footer: {
-    paddingHorizontal: 24,
-    paddingVertical: 16,
-  },
   button: {
     backgroundColor: theme.colors.backgroundSecondary,
-    borderRadius: 30,
+    borderRadius: 100,
     paddingVertical: 16,
     alignItems: 'center',
     justifyContent: 'center',

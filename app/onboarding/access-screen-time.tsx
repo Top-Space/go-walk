@@ -21,16 +21,22 @@ export default function AccessScreenTimeScreen() {
           To analyze your Screen Time on this iPhone, GoWalk will need your permission.
         </Text>
 
-        <Image 
-          source={screenTimePermissionImage}
-          style={styles.permissionImage}
-          resizeMode="contain"
-        />
+        <View style={styles.imageContainer}>
+          <Image 
+            source={require('../../assets/images/ios-screentime-alert.png')}
+            style={styles.permissionImage}
+            resizeMode="contain"
+            accessibilityLabel="Screen Phone"
+          />
+        </View>
       </View>
 
       <View style={[styles.bottomContainer, { paddingBottom: insets.bottom + 16 }]}>
         <Pressable
-          style={styles.continueButton}
+          style={({ pressed }) => [
+            styles.continueButton,
+            pressed && styles.buttonPressed,
+          ]}
           onPress={handleContinue}
         >
           <Text style={styles.continueButtonText}>Continue</Text>
@@ -77,10 +83,16 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     lineHeight: 24,
   },
+  imageContainer: {
+    width: '100%',
+    aspectRatio: 440/500,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 24,
+  },
   permissionImage: {
     width: '100%',
-    height: 200,
-    marginVertical: 24,
+    height: '100%',
   },
   bottomContainer: {
     padding: 24,
@@ -89,9 +101,13 @@ const styles = StyleSheet.create({
   continueButton: {
     backgroundColor: theme.colors.primary,
     paddingVertical: 16,
-    borderRadius: 12,
+    borderRadius: 100,
     alignItems: 'center',
     marginBottom: 24,
+  },
+  buttonPressed: {
+    opacity: 0.9,
+    transform: [{ scale: 0.98 }],
   },
   continueButtonText: {
     fontFamily: 'Inter-SemiBold',

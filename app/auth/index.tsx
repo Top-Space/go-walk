@@ -88,11 +88,9 @@ export default function HomeScreen() {
     const today = new Date();
     const selectedDate = new Date(date);
     
-    // Якщо вибрана дата в минулому, встановлюємо її як поточну
     if (selectedDate < today) {
       setCurrentDate(selectedDate);
     } else {
-      // Якщо вибрана дата в майбутньому, встановлюємо сьогоднішню дату
       setCurrentDate(today);
     }
   };
@@ -151,16 +149,27 @@ export default function HomeScreen() {
       style={[styles.container, { paddingTop: insets.top }]}
       showsVerticalScrollIndicator={false}
     >
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerTitle}>GoWalk</Text>
+      </View>
+
       <View style={styles.header}>
         {renderWeekCalendar()}
       </View>
 
       <View style={styles.stepsSection}>
         <Text style={styles.sectionLabel}>your steps statistic</Text>
-        <Text style={styles.stepsTitle}>
-          You walked <Text style={styles.highlight}>2,000 steps</Text> — that's equal to{' '}
-          <Text style={styles.highlight}>20 minutes</Text> on social media.
-        </Text>
+        <View style={styles.statsBox}>
+          <View style={styles.statsColumn}>
+            <Text style={styles.statsLabel}>Today Steps</Text>
+            <Text style={styles.statsNumber}>2,000</Text>
+          </View>
+          <View style={styles.divider} />
+          <View style={styles.statsColumn}>
+            <Text style={styles.statsLabel}>Social Minutes</Text>
+            <Text style={styles.statsNumber}>20</Text>
+          </View>
+        </View>
       </View>
 
       <View style={styles.screenTimeSection}>
@@ -210,6 +219,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,
+  },
+  headerContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    backgroundColor: theme.colors.backgroundSecondary,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.border,
+  },
+  headerTitle: {
+    fontFamily: 'Inter-Bold',
+    fontSize: 34,
+    color: theme.colors.text,
   },
   header: {
     padding: 20,
@@ -266,33 +287,53 @@ const styles = StyleSheet.create({
   },
   stepsSection: {
     padding: 20,
+    marginBottom: 24,
   },
   sectionLabel: {
-    fontFamily: 'Inter-Medium',
+    fontFamily: 'Inter-Regular',
     fontSize: 14,
     color: theme.colors.textSecondary,
-    marginBottom: 12,
+    marginBottom: 16,
+    textTransform: 'uppercase',
   },
-  stepsTitle: {
+  statsBox: {
+    flexDirection: 'row',
+    backgroundColor: theme.colors.backgroundSecondary,
+    borderRadius: 24,
+    padding: 24,
+  },
+  statsColumn: {
+    flex: 1,
+  },
+  divider: {
+    width: 1,
+    backgroundColor: theme.colors.border,
+    marginHorizontal: 24,
+  },
+  statsLabel: {
     fontFamily: 'Inter-Regular',
-    fontSize: 24,
-    lineHeight: 32,
-    color: theme.colors.text,
+    fontSize: 16,
+    color: theme.colors.textSecondary,
+    marginBottom: 8,
   },
-  highlight: {
+  statsNumber: {
     fontFamily: 'Inter-Bold',
+    fontSize: 40,
     color: theme.colors.primary,
+    marginBottom: 8,
+  },
+  statsUnit: {
+    fontFamily: 'Inter-Regular',
+    fontSize: 16,
+    color: theme.colors.textSecondary,
   },
   screenTimeSection: {
-    // padding: 16,
-    backgroundColor: theme.colors.background,
-    borderRadius: 16,
     marginHorizontal: 20,
-    marginBottom: 20,
+    marginBottom: 24,
   },
   screenTimeValue: {
     fontFamily: 'Inter-Bold',
-    fontSize: 36,
+    fontSize: 24,
     color: theme.colors.text,
     marginBottom: 8,
   },
@@ -324,19 +365,11 @@ const styles = StyleSheet.create({
   chartContainer: {
     height: 180,
     marginTop: 16,
-    backgroundColor: theme.colors.background,
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
   },
   usageSection: {
-    padding: 20,
+    paddingTop: 42,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
   },
   appItem: {
     flexDirection: 'row',

@@ -1,7 +1,10 @@
-import { StyleSheet, View, Text, Image, Pressable, ScrollView } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, View, Text, Pressable, Image, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Plus } from 'lucide-react-native';
+import { useRouter } from 'expo-router';
 import { theme } from '@/utils/theme';
+import AddAppModal from '@/components/AddAppModal';
 
 const BLOCKED_APPS = [
   {
@@ -18,38 +21,68 @@ const BLOCKED_APPS = [
 
 export default function BlockListScreen() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
+  const [apps, setApps] = useState(BLOCKED_APPS);
+  const [showAddModal, setShowAddModal] = useState(false);
+
+  const handleAddApp = (app: typeof BLOCKED_APPS[0]) => {
+    setApps(current => [...current, app]);
+  };
 
   return (
-    <ScrollView 
-      style={[styles.container, { paddingTop: insets.top }]}
-      showsVerticalScrollIndicator={false}
-    >
-      <View style={styles.content}>
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
+    <>
+      <ScrollView 
+        style={[styles.container, { paddingTop: insets.top }]}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Block List</Text>
+        </View>
+
+        <View style={styles.content}>
+          <View style={styles.section}>
             <Text style={styles.sectionTitle}>Your Distracting Apps</Text>
             <Text style={styles.blockedCount}>
-              blocked {BLOCKED_APPS.length}/{BLOCKED_APPS.length}
+              blocked {apps.length}/{apps.length}
             </Text>
-          </View>
 
-          <View style={styles.appsGrid}>
-            {BLOCKED_APPS.map(app => (
-              <View key={app.id} style={styles.appItem}>
-                <Image source={{ uri: app.icon }} style={styles.appIcon} />
-                <Text style={styles.appName}>{app.name}</Text>
-              </View>
-            ))}
-            <Pressable style={styles.addAppButton}>
-              <View style={styles.addAppIconContainer}>
-                <Plus size={24} color={theme.colors.primary} />
-              </View>
-              <Text style={styles.addAppText}>Add App</Text>
-            </Pressable>
+            <View style={styles.appsGrid}>
+              {apps.map(app => (
+                <Pressable 
+                  key={app.id} 
+                  style={({ pressed }) => [
+                    styles.appItem,
+                    pressed && styles.appItemPressed
+                  ]}
+                  onPress={() => app.id === 'instagram' && router.push('/auth/blocked-app')}
+                >
+                  <Image source={{ uri: app.icon }} style={styles.appIcon} />
+                  <Text style={styles.appName}>{app.name}</Text>
+                </Pressable>
+              ))}
+              <Pressable 
+                style={({ pressed }) => [
+                  styles.addAppButton,
+                  pressed && styles.appItemPressed
+                ]}
+                onPress={() => setShowAddModal(true)}
+              >
+                <View style={styles.addAppIconContainer}>
+                  <Plus size={24} color={theme.colors.primary} />
+                </View>
+                <Text style={styles.addAppText}>Add App</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+
+      <AddAppModal
+        visible={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onAdd={handleAddApp}
+      />
+    </>
   );
 }
 
@@ -58,29 +91,38 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.background,
   },
+  header: {
+    padding: 20,
+    backgroundColor: theme.colors.backgroundSecondary,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.border,
+  },
+  headerTitle: {
+    fontFamily: 'Inter-Bold',
+    fontSize: 34,
+    color: theme.colors.text,
+  },
   content: {
     padding: 20,
+    gap: 24,
   },
   section: {
     backgroundColor: theme.colors.backgroundSecondary,
-    borderRadius: 16,
+    borderRadius: 24,
     padding: 20,
   },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
   sectionTitle: {
-    fontFamily: 'Inter-Bold',
-    fontSize: 18,
-    color: theme.colors.text,
+    fontFamily: 'Inter-SemiBold',
+    fontSize: 14,
+    color: theme.colors.textSecondary,
+    marginBottom: 4,
+    textTransform: 'uppercase',
   },
   blockedCount: {
     fontFamily: 'Inter-Medium',
-    fontSize: 14,
+    fontSize: 17,
     color: theme.colors.textSecondary,
+    marginBottom: 20,
   },
   appsGrid: {
     flexDirection: 'row',
@@ -91,16 +133,20 @@ const styles = StyleSheet.create({
     width: 80,
     alignItems: 'center',
   },
+  appItemPressed: {
+    opacity: 0.8,
+    transform: [{ scale: 0.98 }],
+  },
   appIcon: {
     width: 60,
     height: 60,
-    borderRadius: 30,
+    borderRadius: 16,
     marginBottom: 8,
     resizeMode: 'cover',
   },
   appName: {
     fontFamily: 'Inter-Medium',
-    fontSize: 12,
+    fontSize: 13,
     color: theme.colors.text,
     textAlign: 'center',
   },
@@ -111,7 +157,7 @@ const styles = StyleSheet.create({
   addAppIconContainer: {
     width: 60,
     height: 60,
-    borderRadius: 30,
+    borderRadius: 16,
     borderWidth: 2,
     borderColor: theme.colors.border,
     borderStyle: 'dashed',
@@ -121,7 +167,7 @@ const styles = StyleSheet.create({
   },
   addAppText: {
     fontFamily: 'Inter-Medium',
-    fontSize: 12,
+    fontSize: 13,
     color: theme.colors.primary,
     textAlign: 'center',
   },

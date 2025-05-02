@@ -1,12 +1,12 @@
 export const theme = {
   colors: {
-    primary: '#1E3A8A', // Dark Blue
-    secondary: '#2563EB', // Blue
+    primary: '#0D56EC', // Dark Blue
+    secondary: '#114CC4', // Blue
     text: '#FFFFFF',
     textSecondary: '#E5E7EB',
-    background: '#000000', // Black
-    backgroundSecondary: '#1E1E1E',
-    border: '#374151',
+    background: '#181920', // Black
+    backgroundSecondary: '#252A34',
+    border: '#252A34',
     error: '#DC2626',
     success: '#059669',
     warning: '#D97706',

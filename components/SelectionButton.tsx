@@ -40,7 +40,7 @@ export default function SelectionButton({
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 12,
+    borderRadius: 100,
     marginBottom: 12,
     overflow: 'hidden',
   },

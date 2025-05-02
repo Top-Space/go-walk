@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import ProgressBar from '@/components/ProgressBar';
 import { theme } from '@/utils/theme';
 
@@ -20,6 +21,16 @@ export default function Report1Screen() {
       </View>
 
       <View style={styles.content}>
+        <View style={styles.emojiContainer}>
+          <LinearGradient
+            colors={[theme.colors.primary, theme.colors.secondary]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.emojiBackground}
+          >
+            <Text style={styles.emoji}>👀</Text>
+          </LinearGradient>
+        </View>
         <Text style={styles.message}>
           Some not-so-good news, and some great news.
         </Text>
@@ -55,6 +66,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 32,
   },
+  emojiContainer: {
+    marginBottom: 32,
+  },
+  emojiBackground: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emoji: {
+    fontSize: 80,
+  },
   message: {
     fontFamily: 'Inter-Bold',
     fontSize: 28,
@@ -68,7 +92,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: theme.colors.backgroundSecondary,
-    borderRadius: 30,
+    borderRadius: 100,
     paddingVertical: 16,
     alignItems: 'center',
     justifyContent: 'center',
