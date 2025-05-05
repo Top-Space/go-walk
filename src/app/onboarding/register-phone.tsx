@@ -31,8 +31,8 @@ export default function RegisterPhoneScreen() {
                 </View>
 
                 <CountryPicker
-                    show={showCountryPicker}
                     lang='en'
+                    show={showCountryPicker}
                     pickerButtonOnPress={(item: CountryItem) => {
                         setCountryCode(item.dial_code)
                         setShowCountryPicker(false)

@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Info } from 'lucide-react-native'
 import { theme } from '@/utils/theme'
+import IosScreenTimeAlertImage from '@/assets/images/ios-screentime-alert.png'
 
 export default function AccessScreenTimeScreen() {
     const router = useRouter()
@@ -19,7 +20,7 @@ export default function AccessScreenTimeScreen() {
                 <Text style={styles.subtitle}>To analyze your Screen Time on this iPhone, GoWalk will need your permission.</Text>
 
                 <View style={styles.imageContainer}>
-                    <Image source={require('../../assets/images/ios-screentime-alert.png')} style={styles.permissionImage} resizeMode='contain' accessibilityLabel='Screen Phone' />
+                    <Image source={IosScreenTimeAlertImage} style={styles.permissionImage} resizeMode='contain' accessibilityLabel='Screen Phone' />
                 </View>
             </View>
 
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
     },
     permissionImage: {
         width: '100%',
-        height: '100%'
+        maxWidth: 440
     },
     bottomContainer: {
         padding: 24,

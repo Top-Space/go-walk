@@ -4,13 +4,25 @@ import { useRouter } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ArrowLeft } from 'lucide-react-native'
 import { theme } from '@/utils/theme'
+import { Controller, useForm } from 'react-hook-form'
+
+interface FormData {
+    code: Array<string>
+}
 
 export default function RegisterPhoneVerifyScreen() {
     const router = useRouter()
     const insets = useSafeAreaInsets()
-    const [code, setCode] = useState(['', '', '', '', '', ''])
     const [timer, setTimer] = useState(53)
     const inputs = useRef<Array<TextInput | null>>([])
+
+    const { control, handleSubmit, setValue, watch } = useForm<FormData>({
+        defaultValues: {
+            code: ['', '', '', '', '', '']
+        }
+    })
+
+    const code = watch('code')
 
     useEffect(() => {
         if (timer > 0) {
@@ -26,14 +38,16 @@ export default function RegisterPhoneVerifyScreen() {
         const newCode = [...code]
 
         newCode[index] = text
-        setCode(newCode)
+        setValue('code', newCode)
 
         if (text && index < 5) {
             inputs.current[index + 1]?.focus()
         }
 
         if (newCode.every((digit) => digit)) {
-            router.push('/onboarding/add-name')
+            handleSubmit((data) => {
+                router.push('/onboarding/add-name')
+            })()
         }
     }
 
@@ -56,21 +70,44 @@ export default function RegisterPhoneVerifyScreen() {
             <View style={styles.content}>
                 <Text style={styles.title}>Enter the 6-digit Verification Code sent to</Text>
 
-                <View style={styles.codeContainer}>
-                    {code.map((digit, index) => (
-                        <TextInput
-                            key={index}
-                            ref={(el) => (inputs.current[index] = el)}
-                            style={styles.codeInput}
-                            value={digit}
-                            onChangeText={(text) => handleCodeChange(text, index)}
-                            onKeyPress={(e) => handleKeyPress(e, index)}
-                            keyboardType='number-pad'
-                            maxLength={1}
-                            selectTextOnFocus
-                        />
-                    ))}
-                </View>
+                <Controller
+                    control={control}
+                    name='code'
+                    rules={{
+                        required: true,
+                        validate: (value) => {
+                            if (value.length !== 6) {
+                                return 'Code must be 6 digits long'
+                            }
+
+                            if (value.some((digit) => isNaN(Number(digit)))) {
+                                return 'Code must contain only numbers'
+                            }
+
+                            return true
+                        }
+                    }}
+                    render={({ field, fieldState: { error } }) => (
+                        <View style={{ marginBottom: 24, gap: 4 }}>
+                            <View style={styles.codeContainer}>
+                                {field.value.map((digit, index) => (
+                                    <TextInput
+                                        key={index}
+                                        ref={(el) => (inputs.current[index] = el)}
+                                        style={styles.codeInput}
+                                        value={digit}
+                                        onChangeText={(text) => handleCodeChange(text, index)}
+                                        onKeyPress={(e) => handleKeyPress(e, index)}
+                                        keyboardType='number-pad'
+                                        maxLength={1}
+                                        selectTextOnFocus
+                                    />
+                                ))}
+                            </View>
+                            {error && <Text style={{ color: 'red' }}>{error.message}</Text>}
+                        </View>
+                    )}
+                />
 
                 <Text style={styles.timer}>{timer > 0 ? `Resend in ${Math.floor(timer / 60)}:${String(timer % 60).padStart(2, '0')}` : 'Resend code'}</Text>
             </View>
@@ -112,8 +149,7 @@ const styles = StyleSheet.create({
     },
     codeContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 24
+        justifyContent: 'space-between'
     },
     codeInput: {
         width: 50,

@@ -68,8 +68,7 @@ const styles = StyleSheet.create({
     },
     permissionImage: {
         width: '100%',
-        height: 200,
-        marginVertical: 24
+        maxWidth: 440
     },
     bottomContainer: {
         padding: 24,
