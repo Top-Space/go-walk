@@ -30,6 +30,9 @@
         "projectId": "958f4710-ca1f-46ac-ab86-75729571fe1c"
       }
     },
-    "owner": "topspace"
+    "owner": "topspace",
+    "android": {
+      "package": "com.topspace.boltexponativewind"
+    }
   }
 }
