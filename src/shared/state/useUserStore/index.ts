@@ -1,13 +1,16 @@
+import type { UserType } from '@/shared/types'
 import { create } from 'zustand'
 
 interface UserStore {
-    isAuthenticated: boolean
-    setIsAuthenticated: (isAuthenticated: boolean) => void
+    user: UserType | null
+    setUser: (user: UserType) => void
 }
 
 const useUserStore = create<UserStore>((set) => ({
-    isAuthenticated: false,
-    setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated })
+    user: null,
+    setUser: (user) => set({ user })
 }))
+
+export const setUser = useUserStore.getState().setUser
 
 export default useUserStore
