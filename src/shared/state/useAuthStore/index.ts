@@ -1,8 +1,7 @@
 import type { AuthThrowThirdPartyInputType } from '@/shared/api/auth/authThrowThirdParty.ts'
 import { authThrowThirdPartyMutation } from '@/shared/api/auth/authThrowThirdParty.ts'
 import { create } from 'zustand'
-import { setUser } from '../useUserStore'
-import tokenService from '@/shared/services/tokenService'
+import authService from '@/shared/services/authService'
 
 interface AuthStoreType {
     authThrowThirdParty: (variables: AuthThrowThirdPartyInputType) => Promise<void>
@@ -18,8 +17,7 @@ const useAuthStore = create<AuthStoreType>(() => ({
 
         const { user, token } = data.authThrowThirdParty
 
-        await tokenService.set(token)
-        setUser(user)
+        await authService.init(user, token)
     }
 }))
 

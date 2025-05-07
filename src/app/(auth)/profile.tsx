@@ -3,6 +3,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import type { Video as LucideIcon } from 'lucide-react-native'
 import { ChevronRight, Crown } from 'lucide-react-native'
 import { theme } from '@/utils/theme'
+import authService from '@/shared/services/authService'
+import { deleteAccount } from '@/shared/api/auth/deleteAccount'
 
 interface SectionItem {
     label: string
@@ -54,7 +56,7 @@ export default function ProfileScreen() {
                 text: 'Logout',
                 style: 'destructive',
                 onPress: () => {
-                    // TODO: Implement logout logic
+                    authService.logout()
                 }
             }
         ])
@@ -69,8 +71,14 @@ export default function ProfileScreen() {
             {
                 text: 'Delete',
                 style: 'destructive',
-                onPress: () => {
-                    // TODO: Implement delete profile logic
+                onPress: async () => {
+                    const { data } = await deleteAccount()
+
+                    if (!data) {
+                        throw new Error('Failed to delete account')
+                    }
+
+                    data.deleteAccount && authService.logout()
                 }
             }
         ])

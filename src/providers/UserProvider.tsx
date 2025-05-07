@@ -1,7 +1,6 @@
 import ScreenLoader from '@/components/ScreenLoader'
 import { getUserByTokenQuery } from '@/shared/api/user/getUserByToken'
-import tokenService from '@/shared/services/tokenService'
-import { setUser } from '@/shared/state/useUserStore'
+import authService from '@/shared/services/authService'
 import type { FC, PropsWithChildren } from 'react'
 import { useEffect, useState } from 'react'
 
@@ -20,8 +19,7 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
 
             const { user, token } = data.getUserByToken
 
-            await tokenService.set(token)
-            setUser(user)
+            await authService.init(user, token)
         } catch (err) {
             // eslint-disable-next-line no-console
             console.log(err)
