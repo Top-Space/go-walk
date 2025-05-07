@@ -4,6 +4,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { LinearGradient } from 'expo-linear-gradient'
 import Animated, { useAnimatedStyle, withSpring, withRepeat, withSequence, withDelay } from 'react-native-reanimated'
 import { theme } from '@/utils/theme'
+import useOnboardingStore from '@/shared/state/useOnboardingStore'
+import errorHandler from '@/shared/lib/utils/errorHandler'
+import authService from '@/shared/services/authService'
+import tokenService from '@/shared/services/tokenService'
 
 const APPS = [
     {
@@ -43,6 +47,11 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 const SelectAppsScreen = () => {
     const insets = useSafeAreaInsets()
     const [selectedApps, setSelectedApps] = useState<string[]>([])
+    const [isLoading, setIsLoading] = useState(false)
+
+    const tempUser = useOnboardingStore((state) => state.tempUser)
+    const setUserInfo = useOnboardingStore((state) => state.setUserInfo)
+    const pushOnboardingInfo = useOnboardingStore((state) => state.pushOnboardingInfo)
 
     const handleAppSelect = (appId: string) => {
         setSelectedApps((prev) => {
@@ -55,6 +64,21 @@ const SelectAppsScreen = () => {
 
             return prev
         })
+    }
+
+    const handleSelectApps = async () => {
+        try {
+            setIsLoading(true)
+
+            setUserInfo({ distractiveApps: selectedApps })
+            await pushOnboardingInfo()
+
+            authService.init(tempUser!, (await tokenService.get())!)
+        } catch (error) {
+            errorHandler(error)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (
@@ -74,7 +98,7 @@ const SelectAppsScreen = () => {
             </ScrollView>
 
             <View style={[styles.footer, { paddingBottom: insets.bottom + 16 }]}>
-                <Pressable style={({ pressed }) => [styles.button, selectedApps.length === 0 && styles.buttonDisabled, pressed && styles.buttonPressed]} disabled={selectedApps.length === 0}>
+                <Pressable style={({ pressed }) => [styles.button, selectedApps.length === 0 && styles.buttonDisabled, pressed && styles.buttonPressed]} disabled={selectedApps.length === 0 || isLoading} onPress={handleSelectApps}>
                     <LinearGradient colors={selectedApps.length > 0 ? [theme.colors.primary, theme.colors.secondary] : ['#4B5563', '#6B7280']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.gradient}>
                         <Text style={styles.buttonText}>Select Apps</Text>
                     </LinearGradient>

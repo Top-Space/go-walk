@@ -5,12 +5,10 @@ import AppleButton from '@/components/AppleButton'
 import { useState } from 'react'
 import * as AppleAuthentication from 'expo-apple-authentication'
 import useAuthStore from '@/shared/state/useAuthStore'
-import errorHandler from '@/shared/lib/utils/errorHandler'
-import { router } from 'expo-router'
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
     const [isLoading, setIsLoading] = useState(false)
-    const loginThrowThirdParty = useAuthStore((state) => state.loginThrowThirdParty)
+    const registerThrowThirdParty = useAuthStore((state) => state.registerThrowThirdParty)
 
     const onAppleAuth = async () => {
         try {
@@ -29,16 +27,15 @@ export default function LoginScreen() {
 
                 token = credential.identityToken
             } else if (__DEV__) {
-                token = '4123'
+                token = '41232'
             } else {
                 throw new Error('Apple authentication is not supported on this platform')
             }
 
-            await loginThrowThirdParty({ appleIdToken: token })
+            await registerThrowThirdParty({ appleIdToken: token })
         } catch (err) {
-            errorHandler(err)
-
-            router.push('/(onboarding)/welcome')
+            // eslint-disable-next-line no-console
+            console.log(err)
         } finally {
             setIsLoading(false)
         }

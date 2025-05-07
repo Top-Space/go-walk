@@ -3,10 +3,13 @@ import { useRouter } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import ProgressBar from '@/components/ProgressBar'
 import { theme } from '@/utils/theme'
+import useOnboardingStore from '@/shared/state/useOnboardingStore'
 
 export default function Report3Screen() {
     const router = useRouter()
     const insets = useSafeAreaInsets()
+
+    const userStat = useOnboardingStore((state) => state.userStat)
 
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
@@ -16,7 +19,7 @@ export default function Report3Screen() {
 
             <View style={styles.content}>
                 <Text style={styles.text}>The good news is that GoWalk can help you get back</Text>
-                <Text style={styles.highlight}>6 years+</Text>
+                <Text style={styles.highlight}>{userStat.getBackYearsOfLife} years+</Text>
                 <Text style={styles.text}>of your life free from distractions, and help you achieve your dreams.</Text>
             </View>
 

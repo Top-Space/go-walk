@@ -4,18 +4,29 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ArrowLeft } from 'lucide-react-native'
 import ProgressBar from '@/components/ProgressBar'
 import SelectionButton from '@/components/SelectionButton'
-import { useQuestion } from '@/contexts/QuestionContext'
 import { theme } from '@/utils/theme'
+import useOnboardingStore from '@/shared/state/useOnboardingStore'
+import type { OnboardingAvgScreenTime } from '@/shared/types'
+import { OnboardingAvgScreenTimes } from '@/shared/types'
 
-const OPTIONS = ['Under 1 hour', '1–3 hours', '3–4 hours', '4–5 hours', '5–7 hours', 'More than 7 hours']
+const OPTIONS = [
+    { label: 'Under 1 hour', value: OnboardingAvgScreenTimes.UNDER_ONE_HOUR },
+    { label: '1–3 hours', value: OnboardingAvgScreenTimes.ONE_TO_THREE_HOURS },
+    { label: '3–4 hours', value: OnboardingAvgScreenTimes.THREE_TO_FOUR_HOURS },
+    { label: '4–5 hours', value: OnboardingAvgScreenTimes.FOUR_TO_FIVE_HOURS },
+    { label: '5–7 hours', value: OnboardingAvgScreenTimes.FIVE_TO_SEVEN_HOURS },
+    { label: 'More than 7 hours', value: OnboardingAvgScreenTimes.MORE_THAN_SEVEN_HOURS }
+]
 
 export default function Question1Screen() {
     const router = useRouter()
     const insets = useSafeAreaInsets()
-    const { answers, setAnswer } = useQuestion()
 
-    const handleSelect = (option: string) => {
-        setAnswer('screenTime', option)
+    const userInfo = useOnboardingStore((state) => state.userInfo)
+    const setUserInfo = useOnboardingStore((state) => state.setUserInfo)
+
+    const handleSelect = (value: OnboardingAvgScreenTime) => {
+        setUserInfo({ avgScreenTime: value })
         router.push('/(onboarding)/question2')
     }
 
@@ -36,8 +47,8 @@ export default function Question1Screen() {
                     <Text style={styles.subtitle}>On your phone only. Your best guess is ok.</Text>
 
                     <View style={styles.optionsContainer}>
-                        {OPTIONS.map((option, index) => (
-                            <SelectionButton key={index} label={option} isSelected={answers.screenTime === option} onPress={() => handleSelect(option)} style={index === OPTIONS.length - 1 ? { marginBottom: 0 } : undefined} />
+                        {OPTIONS.map(({ label, value }, index) => (
+                            <SelectionButton key={index} label={label} isSelected={userInfo.avgScreenTime === value} onPress={() => handleSelect(value)} style={index === OPTIONS.length - 1 ? { marginBottom: 0 } : undefined} />
                         ))}
                     </View>
                 </View>

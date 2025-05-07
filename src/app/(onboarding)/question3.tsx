@@ -4,18 +4,30 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ArrowLeft } from 'lucide-react-native'
 import ProgressBar from '@/components/ProgressBar'
 import SelectionButton from '@/components/SelectionButton'
-import { useQuestion } from '@/contexts/QuestionContext'
 import { theme } from '@/utils/theme'
+import useOnboardingStore from '@/shared/state/useOnboardingStore'
+import type { OnboardingOccupation } from '@/shared/types'
+import { OnboardingOccupations } from '@/shared/types'
 
-const OPTIONS = ['Student / Academic', 'Software Development', 'CEO / Founder', 'Remote Worker', 'Finance / Ops / Consulting', 'Art / Content', 'Other']
+const OPTIONS = [
+    { label: 'Student / Academic', value: OnboardingOccupations.STUDENT_ACADEMIC },
+    { label: 'Software Development', value: OnboardingOccupations.SOFTWARE_DEVELOPMENT },
+    { label: 'CEO / Founder', value: OnboardingOccupations.CEO_FOUNDER },
+    { label: 'Remote Worker', value: OnboardingOccupations.REMOTE_WORKER },
+    { label: 'Finance / Ops / Consulting', value: OnboardingOccupations.FINANCE_OPS_CONSULTING },
+    { label: 'Art / Content', value: OnboardingOccupations.ART_CONTENT },
+    { label: 'Other', value: OnboardingOccupations.OTHER }
+]
 
 export default function Question3Screen() {
     const router = useRouter()
     const insets = useSafeAreaInsets()
-    const { answers, setAnswer } = useQuestion()
 
-    const handleSelect = (option: string) => {
-        setAnswer('occupation', option)
+    const userInfo = useOnboardingStore((state) => state.userInfo)
+    const setUserInfo = useOnboardingStore((state) => state.setUserInfo)
+
+    const handleSelect = (option: OnboardingOccupation) => {
+        setUserInfo({ occupation: option })
         router.push('/(onboarding)/analyzing')
     }
 
@@ -36,7 +48,7 @@ export default function Question3Screen() {
 
                     <View style={styles.optionsContainer}>
                         {OPTIONS.map((option, index) => (
-                            <SelectionButton key={index} label={option} isSelected={answers.occupation === option} onPress={() => handleSelect(option)} style={index === OPTIONS.length - 1 ? { marginBottom: 0 } : undefined} />
+                            <SelectionButton key={index} label={option.label} isSelected={userInfo.occupation === option.value} onPress={() => handleSelect(option.value)} style={index === OPTIONS.length - 1 ? { marginBottom: 0 } : undefined} />
                         ))}
                     </View>
                 </View>

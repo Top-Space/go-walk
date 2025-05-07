@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text, Pressable } from 'react-native'
 import { useRouter } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -9,12 +9,29 @@ export default function OneTimeOfferScreen() {
     const router = useRouter()
     const insets = useSafeAreaInsets()
 
+    const [time, setTime] = useState(30 * 60)
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTime(time - 1)
+        }, 1000)
+
+        return () => clearInterval(interval)
+    }, [time])
+
     const handleAcceptOffer = () => {
         router.push('/(onboarding)/subscription-success')
     }
 
     const handleClose = () => {
         router.push('/(onboarding)/select-apps')
+    }
+
+    const formatTime = (time: number) => {
+        const minutes = Math.floor(time / 60)
+        const seconds = time % 60
+
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`
     }
 
     return (
@@ -31,9 +48,32 @@ export default function OneTimeOfferScreen() {
                 <Text style={styles.title}>ONE TIME OFFER</Text>
                 <Text style={styles.subtitle}>You will never see this again</Text>
 
-                <View style={styles.discountBox}>
+                <LinearGradient colors={['#2953E9', '#21348D']} start={{ x: 1, y: 0 }} end={{ x: 0, y: 0 }} style={styles.discountBox}>
                     <Text style={styles.discountText}>60%</Text>
                     <Text style={styles.discountLabel}>DISCOUNT</Text>
+                </LinearGradient>
+
+                <View style={{ alignItems: 'center', gap: 12, marginBottom: 32 }}>
+                    <Text
+                        style={{
+                            fontFamily: 'Inter-Bold',
+                            fontSize: 18,
+                            lineHeight: 23,
+                            color: theme.colors.text
+                        }}
+                    >
+                        This offer will expire in
+                    </Text>
+                    <Text
+                        style={{
+                            fontFamily: 'Inter-SemiBold',
+                            fontSize: 30,
+                            lineHeight: 37,
+                            color: theme.colors.text
+                        }}
+                    >
+                        {formatTime(time)}
+                    </Text>
                 </View>
 
                 <View style={styles.planContainer}>
@@ -92,7 +132,7 @@ const styles = StyleSheet.create({
         borderRadius: 32,
         padding: 20,
         alignItems: 'center',
-        marginBottom: 48,
+        marginBottom: 32,
         shadowColor: theme.colors.primary,
         shadowOffset: {
             width: 0,
@@ -103,12 +143,13 @@ const styles = StyleSheet.create({
         elevation: 10
     },
     discountText: {
-        fontWeight: 700,
+        fontFamily: 'Inter-Bold',
         fontSize: 106,
-        color: theme.colors.text
+        color: theme.colors.text,
+        lineHeight: 120
     },
     discountLabel: {
-        fontWeight: 400,
+        fontFamily: 'Inter-Regular',
         fontSize: 18,
         color: theme.colors.text
     },

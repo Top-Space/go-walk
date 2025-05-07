@@ -175,13 +175,13 @@ const styles = StyleSheet.create({
         backgroundColor: theme.colors.primary
     },
     planName: {
-        fontFamily: 'Inter',
-        fontSize: 18,
+        fontFamily: 'Inter-Regular',
+        fontSize: 16,
         color: theme.colors.textTertiary
     },
     planPrice: {
-        fontSize: 20,
-        fontWeight: 600,
+        fontFamily: 'Inter-SemiBold',
+        fontSize: 18,
         color: theme.colors.text
     },
     planPeriod: {
@@ -213,7 +213,9 @@ const styles = StyleSheet.create({
     },
     skipButton: {
         paddingVertical: 16,
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: theme.colors.backgroundSecondary,
+        borderRadius: 100
     },
     buttonPressed: {
         opacity: 0.9,

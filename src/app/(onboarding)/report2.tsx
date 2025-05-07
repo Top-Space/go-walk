@@ -3,10 +3,13 @@ import { useRouter } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import ProgressBar from '@/components/ProgressBar'
 import { theme } from '@/utils/theme'
+import useOnboardingStore from '@/shared/state/useOnboardingStore'
 
 export default function Report2Screen() {
     const router = useRouter()
     const insets = useSafeAreaInsets()
+
+    const userStat = useOnboardingStore((state) => state.userStat)
 
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
@@ -16,10 +19,10 @@ export default function Report2Screen() {
 
             <View style={styles.content}>
                 <Text style={styles.text}>
-                    The bad news is that you'll spend <Text style={styles.bold}>114 days</Text> on your phone this year.
+                    The bad news is that you'll spend <Text style={styles.bold}>{userStat.spendDaysOfYear} days</Text> on your phone this year.
                 </Text>
                 <Text style={styles.text}>Meaning that you're on track to spend</Text>
-                <Text style={styles.highlight}>22 years</Text>
+                <Text style={styles.highlight}>{userStat.spendYearsOfLife} years</Text>
                 <Text style={styles.text}>of your life looking down at your phone.</Text>
                 <Text style={styles.text}>Yep, you read this right.</Text>
             </View>

@@ -19,9 +19,8 @@ export default function AccessHealthLoadingScreen() {
             -1
         )
 
-        // Simulate loading time
         const timer = setTimeout(() => {
-            router.push('/(onboarding)/register-phone')
+            router.push('/(onboarding)/register')
         }, 2000)
 
         return () => clearTimeout(timer)

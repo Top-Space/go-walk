@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Animated } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useRouter } from 'expo-router'
 import { theme } from '@/utils/theme'
+import useOnboardingStore from '@/shared/state/useOnboardingStore'
 
 export default function AnalyzingScreen() {
     const router = useRouter()
@@ -10,7 +11,11 @@ export default function AnalyzingScreen() {
     const scaleAnim = useRef(new Animated.Value(0)).current
     const loadingAnim = useRef(new Animated.Value(0)).current
 
+    const calculateUserStat = useOnboardingStore((state) => state.calculateUserStat)
+
     useEffect(() => {
+        calculateUserStat()
+
         const textTimer = setTimeout(() => {
             setText('Preparing report…')
         }, 2000)

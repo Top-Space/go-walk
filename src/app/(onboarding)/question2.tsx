@@ -4,18 +4,28 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ArrowLeft } from 'lucide-react-native'
 import ProgressBar from '@/components/ProgressBar'
 import SelectionButton from '@/components/SelectionButton'
-import { useQuestion } from '@/contexts/QuestionContext'
 import { theme } from '@/utils/theme'
+import useOnboardingStore from '@/shared/state/useOnboardingStore'
+import type { OnboardingAge } from '@/shared/types'
+import { OnboardingAges } from '@/shared/types'
 
-const OPTIONS = ['Under 18', '18–24', '25–34', '35–44', '45–55', '55–64', 'Over 64']
+const OPTIONS = [
+    { label: 'Under 18', value: OnboardingAges.UNDER_18 },
+    { label: '18–24', value: OnboardingAges.EIGHTEEN_TO_TWENTY_FOUR },
+    { label: '25–34', value: OnboardingAges.TWENTY_FIVE_TO_THIRTY_FOUR },
+    { label: '35–44', value: OnboardingAges.THIRTY_FIVE_TO_FOURTY_FOUR },
+    { label: '45–55', value: OnboardingAges.FORTY_FIVE_TO_FIFTY_FIVE }
+]
 
 export default function Question2Screen() {
     const router = useRouter()
     const insets = useSafeAreaInsets()
-    const { answers, setAnswer } = useQuestion()
 
-    const handleSelect = (option: string) => {
-        setAnswer('age', option)
+    const userInfo = useOnboardingStore((state) => state.userInfo)
+    const setUserInfo = useOnboardingStore((state) => state.setUserInfo)
+
+    const handleSelect = (value: OnboardingAge) => {
+        setUserInfo({ age: value })
         router.push('/(onboarding)/question3')
     }
 
@@ -35,8 +45,8 @@ export default function Question2Screen() {
                     <Text style={styles.title}>How old are you?</Text>
 
                     <View style={styles.optionsContainer}>
-                        {OPTIONS.map((option, index) => (
-                            <SelectionButton key={index} label={option} isSelected={answers.age === option} onPress={() => handleSelect(option)} style={index === OPTIONS.length - 1 ? { marginBottom: 0 } : undefined} />
+                        {OPTIONS.map(({ label, value }, index) => (
+                            <SelectionButton key={index} label={label} isSelected={userInfo.age === value} onPress={() => handleSelect(value)} style={index === OPTIONS.length - 1 ? { marginBottom: 0 } : undefined} />
                         ))}
                     </View>
                 </View>
