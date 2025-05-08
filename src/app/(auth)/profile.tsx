@@ -21,14 +21,6 @@ interface Section {
 
 const SECTIONS: Section[] = [
     {
-        title: 'You',
-        items: [
-            { label: 'Your Goal', value: 'Connect with people' },
-            { label: 'Age Range', value: '55+' },
-            { label: 'Your Starting Screentime', value: '8h' }
-        ]
-    },
-    {
         title: 'Account',
         items: [{ label: 'Subscription', value: 'Pro', icon: Crown, isPro: true }]
     },
@@ -85,27 +77,29 @@ export default function ProfileScreen() {
     }
 
     return (
-        <ScrollView style={[styles.container, { paddingTop: insets.top }]} showsVerticalScrollIndicator={false}>
+        <ScrollView style={[styles.container, { paddingTop: insets.top }]} showsVerticalScrollIndicator={false} contentContainerStyle={{ flex: 1 }}>
             <View style={styles.header}>
                 <Text style={styles.headerTitle}>Profile</Text>
             </View>
 
-            <View style={styles.content}>
-                {SECTIONS.map((section, sectionIndex) => (
-                    <View key={section.title} style={[styles.section, sectionIndex < SECTIONS.length - 1 && styles.sectionMargin]}>
-                        <Text style={styles.sectionTitle}>{section.title}</Text>
-                        {section.items.map((item, index) => (
-                            <Pressable key={item.label} style={({ pressed }) => [styles.item, index < section.items.length - 1 && styles.itemBorder, pressed && styles.itemPressed]}>
-                                <Text style={styles.itemLabel}>{item.label}</Text>
-                                <View style={styles.itemValue}>
-                                    {item.icon && <item.icon size={20} color={theme.colors.primary} style={styles.itemIcon} />}
-                                    <Text style={[styles.itemValueText, item.isPro && styles.itemValueTextPro]}>{item.value}</Text>
-                                    {item.hasArrow && <ChevronRight size={20} color={theme.colors.textSecondary} />}
-                                </View>
-                            </Pressable>
-                        ))}
-                    </View>
-                ))}
+            <View style={{ flex: 1, justifyContent: 'space-between', padding: 20 }}>
+                <View style={styles.content}>
+                    {SECTIONS.map((section, sectionIndex) => (
+                        <View key={section.title} style={[styles.section, sectionIndex < SECTIONS.length - 1 && styles.sectionMargin]}>
+                            <Text style={styles.sectionTitle}>{section.title}</Text>
+                            {section.items.map((item, index) => (
+                                <Pressable key={item.label} style={({ pressed }) => [styles.item, index < section.items.length - 1 && styles.itemBorder, pressed && styles.itemPressed]}>
+                                    <Text style={styles.itemLabel}>{item.label}</Text>
+                                    <View style={styles.itemValue}>
+                                        {item.icon && <item.icon size={20} color={theme.colors.primary} style={styles.itemIcon} />}
+                                        <Text style={[styles.itemValueText, item.isPro && styles.itemValueTextPro]}>{item.value}</Text>
+                                        {item.hasArrow && <ChevronRight size={20} color={theme.colors.textSecondary} />}
+                                    </View>
+                                </Pressable>
+                            ))}
+                        </View>
+                    ))}
+                </View>
 
                 <View style={[styles.section, styles.dangerSection]}>
                     <Pressable style={({ pressed }) => [styles.dangerButton, pressed && styles.buttonPressed]} onPress={handleLogout}>
@@ -137,7 +131,6 @@ const styles = StyleSheet.create({
         color: theme.colors.text
     },
     content: {
-        padding: 20,
         gap: 24
     },
     section: {

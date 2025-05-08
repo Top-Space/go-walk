@@ -29,7 +29,7 @@ export default function LoginScreen() {
 
                 token = credential.identityToken
             } else if (__DEV__) {
-                token = '4123'
+                token = '41232'
             } else {
                 throw new Error('Apple authentication is not supported on this platform')
             }

@@ -24,7 +24,7 @@ export default function OneTimeOfferScreen() {
     }
 
     const handleClose = () => {
-        router.push('/(onboarding)/select-apps')
+        router.push('/(onboarding)/subscription')
     }
 
     const formatTime = (time: number) => {
@@ -96,7 +96,7 @@ export default function OneTimeOfferScreen() {
                 </Pressable>
 
                 <Pressable style={({ pressed }) => [styles.closeButton, pressed && styles.buttonPressed]} onPress={handleClose}>
-                    <Text style={styles.closeButtonText}>Close</Text>
+                    <Text style={styles.closeButtonText}>Cancel</Text>
                 </Pressable>
             </View>
         </View>
@@ -107,12 +107,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: theme.colors.background,
-        padding: 24
+        padding: 16
     },
     content: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: 'center'
     },
     title: {
         fontFamily: 'Inter-Bold',
@@ -157,20 +156,21 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     lowestPrice: {
-        fontFamily: 'Inter-Bold',
-        fontSize: 16,
+        fontFamily: 'Inter-Regular',
+        fontSize: 20,
         color: theme.colors.text,
         textAlign: 'center',
         backgroundColor: theme.colors.primary,
-        paddingVertical: 12,
-        borderTopLeftRadius: 16,
-        borderTopRightRadius: 16
+        paddingVertical: 8,
+        borderTopLeftRadius: 24,
+        borderTopRightRadius: 24
     },
     planBox: {
         backgroundColor: theme.colors.backgroundSecondary,
-        borderBottomLeftRadius: 16,
-        borderBottomRightRadius: 16,
-        padding: 20,
+        borderBottomLeftRadius: 24,
+        borderBottomRightRadius: 24,
+        paddingVertical: 32,
+        paddingHorizontal: 16,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     },
     planName: {
         fontFamily: 'Inter-Bold',
-        fontSize: 24,
+        fontSize: 18,
         color: theme.colors.text
     },
     priceContainer: {
@@ -189,12 +189,12 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter-Bold',
         fontSize: 18,
         color: theme.colors.text,
-        marginBottom: 4
+        marginBottom: 8
     },
     yearlyPrice: {
         fontFamily: 'Inter-Regular',
-        fontSize: 14,
-        color: theme.colors.textSecondary
+        fontSize: 16,
+        color: theme.colors.textTertiary
     },
     footer: {
         gap: 12
@@ -204,6 +204,8 @@ const styles = StyleSheet.create({
         overflow: 'hidden'
     },
     closeButton: {
+        borderRadius: 100,
+        backgroundColor: theme.colors.backgroundSecondary,
         paddingVertical: 16,
         alignItems: 'center'
     },
