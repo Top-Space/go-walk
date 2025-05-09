@@ -1,11 +1,11 @@
-import { setUser } from '@/shared/state/useUserStore'
+import { clearUser, setUser } from '@/shared/state/useUserStore'
 import tokenService from '../tokenService'
 import type { UserType } from '@/shared/types'
 
 class AuthService {
     async logout() {
         await tokenService.remove()
-        setUser(null)
+        clearUser()
     }
 
     async init(user: UserType, token: string) {
