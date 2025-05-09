@@ -11,6 +11,7 @@ interface OnboardingStoreType {
     setUserInfo: (userInfo: Partial<UserOnboardingInfo>) => void
     calculateUserStat: () => void
     setTempUser: (user: UserType | null) => void
+    cleanUp: () => void
 }
 
 const useOnboardingStore = create<OnboardingStoreType>((set, get) => ({
@@ -35,7 +36,8 @@ const useOnboardingStore = create<OnboardingStoreType>((set, get) => ({
         set((state) => ({
             userStat: getUserInfoBaseStatistic(state.userInfo)
         })),
-    setTempUser: (user: UserType | null) => set({ tempUser: user })
+    setTempUser: (user: UserType | null) => set({ tempUser: user }),
+    cleanUp: () => set({ userInfo: {} as UserOnboardingInfo, userStat: {} as UserInfoBaseStatistic, tempUser: null })
 }))
 
 export const setTempUser = useOnboardingStore.getState().setTempUser

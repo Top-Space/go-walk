@@ -26,7 +26,7 @@ const useAuthStore = create<AuthStoreType>(() => ({
         await tokenService.set(token)
         setTempUser(user)
 
-        router.push('/(onboarding)/can-help')
+        router.push('/(commons)/subscription/can-help')
     },
     loginThrowThirdParty: async (variables) => {
         const { data } = await loginThrowThirdPartyMutation(variables)

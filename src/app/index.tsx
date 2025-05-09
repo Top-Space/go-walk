@@ -27,5 +27,5 @@ export default function RootScreen() {
         return null
     }
 
-    return <Redirect href={user ? '/(auth)' : '/(onboarding)/welcome'} />
+    return <Redirect href={user ? '/(auth)' : '/(unauth)/welcome'} />
 }

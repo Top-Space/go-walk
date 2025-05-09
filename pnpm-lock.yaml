@@ -125,6 +125,9 @@ importers:
       react-native-gesture-handler:
         specifier: ~2.20.2
         version: 2.20.2(react-native@0.76.9(@babel/core@7.25.9)(@babel/preset-env@7.27.1(@babel/core@7.25.9))(@types/react@18.3.20)(react@18.3.1))(react@18.3.1)
+      react-native-purchases:
+        specifier: ^8.9.7
+        version: 8.9.7(react-native@0.76.9(@babel/core@7.25.9)(@babel/preset-env@7.27.1(@babel/core@7.25.9))(@types/react@18.3.20)(react@18.3.1))(react@18.3.1)
       react-native-reanimated:
         specifier: ~3.16.1
         version: 3.16.7(@babel/core@7.25.9)(react-native@0.76.9(@babel/core@7.25.9)(@babel/preset-env@7.27.1(@babel/core@7.25.9))(@types/react@18.3.20)(react@18.3.1))(react@18.3.1)
@@ -1304,6 +1307,9 @@ packages:
 
   '@react-navigation/routers@7.3.6':
     resolution: {integrity: sha512-eWh788S9px6quTPWP0MQcN5HBCoomVBakkbpiQgseNYPy4bVUexwoEgytw0yqPhB0/+BBjWWhpkOvYW34RhtXQ==}
+
+  '@revenuecat/purchases-typescript-internal@13.31.0':
+    resolution: {integrity: sha512-6Sgbtp7RTXkPqLOddjsedTxMrRuLC/E2B7KfAmun89Zd/FZJBy7OHuuwDwxdJHeClk9hAh9gfZKMBL9MhgKoqA==}
 
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
@@ -4076,6 +4082,12 @@ packages:
       react: '*'
       react-native: '*'
 
+  react-native-purchases@8.9.7:
+    resolution: {integrity: sha512-4256BcztUYX2j3rOnkOIr/grVr6ty25K+fAZ/Bq6oiPlNlT4ryJ9NBbLwjFJaZfi3Kzrdv/qzxTirrMYb//y/w==}
+    peerDependencies:
+      react: '>= 16.6.3'
+      react-native: '*'
+
   react-native-reanimated@3.16.7:
     resolution: {integrity: sha512-qoUUQOwE1pHlmQ9cXTJ2MX9FQ9eHllopCLiWOkDkp6CER95ZWeXhJCP4cSm6AD4jigL5jHcZf/SkWrg8ttZUsw==}
     peerDependencies:
@@ -6609,6 +6621,8 @@ snapshots:
   '@react-navigation/routers@7.3.6':
     dependencies:
       nanoid: 3.3.11
+
+  '@revenuecat/purchases-typescript-internal@13.31.0': {}
 
   '@rtsao/scc@1.1.0': {}
 
@@ -9744,6 +9758,12 @@ snapshots:
 
   react-native-is-edge-to-edge@1.1.7(react-native@0.76.9(@babel/core@7.25.9)(@babel/preset-env@7.27.1(@babel/core@7.25.9))(@types/react@18.3.20)(react@18.3.1))(react@18.3.1):
     dependencies:
+      react: 18.3.1
+      react-native: 0.76.9(@babel/core@7.25.9)(@babel/preset-env@7.27.1(@babel/core@7.25.9))(@types/react@18.3.20)(react@18.3.1)
+
+  react-native-purchases@8.9.7(react-native@0.76.9(@babel/core@7.25.9)(@babel/preset-env@7.27.1(@babel/core@7.25.9))(@types/react@18.3.20)(react@18.3.1))(react@18.3.1):
+    dependencies:
+      '@revenuecat/purchases-typescript-internal': 13.31.0
       react: 18.3.1
       react-native: 0.76.9(@babel/core@7.25.9)(@babel/preset-env@7.27.1(@babel/core@7.25.9))(@types/react@18.3.20)(react@18.3.1)
 
