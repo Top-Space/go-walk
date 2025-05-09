@@ -4,8 +4,9 @@ export const theme = {
         secondary: '#114CC4', // Blue
         text: '#FFFFFF',
         textSecondary: '#E5E7EB',
+        textTertiary: '#88878E',
         background: '#18171C', // Black
-        backgroundSecondary: '#252A34',
+        backgroundSecondary: '#21232D',
         border: '#252A34',
         error: '#DC2626',
         success: '#059669',

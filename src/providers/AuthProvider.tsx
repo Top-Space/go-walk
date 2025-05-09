@@ -1,18 +1,19 @@
 import useUserStore from '@/shared/state/useUserStore'
 import { useRouter } from 'expo-router'
-import { FC, PropsWithChildren, useEffect } from 'react'
+import type { FC, PropsWithChildren } from 'react'
+import { useEffect } from 'react'
 
 const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     const router = useRouter()
-    const isAuthenticated = useUserStore((state) => state.isAuthenticated)
+    const user = useUserStore((state) => state.user)
 
     useEffect(() => {
-        if (!isAuthenticated) {
-            router.replace('/onboarding/welcome')
+        if (!user) {
+            router.replace('/(onboarding)/welcome')
         }
-    }, [isAuthenticated])
+    }, [user])
 
-    if (!isAuthenticated) {
+    if (!user) {
         return null
     }
 
