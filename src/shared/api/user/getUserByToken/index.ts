@@ -22,4 +22,8 @@ export interface GetUserByTokenResponseType {
     }
 }
 
-export const getUserByTokenQuery = () => QUERY<GetUserByTokenResponseType, never>({ query: GET_USER_BY_TOKEN })
+export const getUserByTokenQuery = () =>
+    QUERY<GetUserByTokenResponseType, never>({
+        query: GET_USER_BY_TOKEN,
+        fetchPolicy: 'network-only'
+    })
