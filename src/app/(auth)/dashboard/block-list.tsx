@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { StyleSheet, View, Text, Pressable, Image, ScrollView } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Plus } from 'lucide-react-native'
 import { useRouter } from 'expo-router'
 import { theme } from '@/utils/theme'
-import AddAppModal from '@/components/AddAppModal'
+import { ScreenTime } from 'react-native-screen-time-api'
 
 const BLOCKED_APPS = [
     {
@@ -23,46 +23,50 @@ export default function BlockListScreen() {
     const insets = useSafeAreaInsets()
     const router = useRouter()
     const [apps, setApps] = useState(BLOCKED_APPS)
-    const [showAddModal, setShowAddModal] = useState(false)
 
-    const handleAddApp = (app: (typeof BLOCKED_APPS)[0]) => {
-        setApps((current) => [...current, app])
-    }
+    const handleAddApp = useCallback(async () => {
+        try {
+            const selection = await ScreenTime.displayFamilyActivityPicker({});
+            console.log('Family activity selection:', selection);
+
+            if (selection) {
+                await ScreenTime.setActivitySelection(selection);
+            }
+        } catch (err) {
+            console.error(err)
+        }
+    }, [])
 
     return (
-        <>
-            <ScrollView style={[styles.container, { paddingTop: insets.top }]} showsVerticalScrollIndicator={false}>
-                <View style={styles.header}>
-                    <Text style={styles.headerTitle}>Block List</Text>
-                </View>
+        <ScrollView style={[styles.container, { paddingTop: insets.top }]} showsVerticalScrollIndicator={false}>
+            <View style={styles.header}>
+                <Text style={styles.headerTitle}>Block List</Text>
+            </View>
 
-                <View style={styles.content}>
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Your Distracting Apps</Text>
-                        <Text style={styles.blockedCount}>
-                            blocked {apps.length}/{apps.length}
-                        </Text>
+            <View style={styles.content}>
+                <View style={styles.section}>
+                    <Text style={styles.sectionTitle}>Your Distracting Apps</Text>
+                    <Text style={styles.blockedCount}>
+                        blocked {apps.length}/{apps.length}
+                    </Text>
 
-                        <View style={styles.appsGrid}>
-                            {apps.map((app) => (
-                                <Pressable key={app.id} style={({ pressed }) => [styles.appItem, pressed && styles.appItemPressed]} onPress={() => app.id === 'instagram' && router.push('/(auth)/dashboard/blocked-app')}>
-                                    <Image source={{ uri: app.icon }} style={styles.appIcon} />
-                                    <Text style={styles.appName}>{app.name}</Text>
-                                </Pressable>
-                            ))}
-                            <Pressable style={({ pressed }) => [styles.addAppButton, pressed && styles.appItemPressed]} onPress={() => setShowAddModal(true)}>
-                                <View style={styles.addAppIconContainer}>
-                                    <Plus size={24} color={theme.colors.primary} />
-                                </View>
-                                <Text style={styles.addAppText}>Add App</Text>
+                    <View style={styles.appsGrid}>
+                        {apps.map((app) => (
+                            <Pressable key={app.id} style={({ pressed }) => [styles.appItem, pressed && styles.appItemPressed]} onPress={() => app.id === 'instagram' && router.push('/(auth)/dashboard/blocked-app')}>
+                                <Image source={{ uri: app.icon }} style={styles.appIcon} />
+                                <Text style={styles.appName}>{app.name}</Text>
                             </Pressable>
-                        </View>
+                        ))}
+                        <Pressable style={({ pressed }) => [styles.addAppButton, pressed && styles.appItemPressed]} onPress={handleAddApp}>
+                            <View style={styles.addAppIconContainer}>
+                                <Plus size={24} color={theme.colors.primary} />
+                            </View>
+                            <Text style={styles.addAppText}>Add App</Text>
+                        </Pressable>
                     </View>
                 </View>
-            </ScrollView>
-
-            <AddAppModal visible={showAddModal} onClose={() => setShowAddModal(false)} onAdd={handleAddApp} />
-        </>
+            </View>
+        </ScrollView>
     )
 }
 

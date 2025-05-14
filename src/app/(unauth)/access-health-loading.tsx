@@ -1,14 +1,35 @@
-import { useEffect } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { useCallback, useEffect } from 'react'
+import { StyleSheet, View, Text, Alert } from 'react-native'
 import { useRouter } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withTiming, Easing } from 'react-native-reanimated'
 import { theme } from '@/utils/theme'
+import HealthKit, { HKQuantityTypeIdentifier, useHealthkitAuthorization } from '@kingstinct/react-native-healthkit';
 
 export default function AccessHealthLoadingScreen() {
     const router = useRouter()
     const insets = useSafeAreaInsets()
     const rotation = useSharedValue(0)
+
+    const [status, requestAuthorization] = useHealthkitAuthorization([HKQuantityTypeIdentifier.stepCount])
+
+    const requestHealthkitAccess = useCallback(async () => {
+        try {
+            const permissionGranted = await HealthKit.requestAuthorization([HKQuantityTypeIdentifier.stepCount])
+            if (permissionGranted) {
+                router.push('/(unauth)/register')
+            }
+        } catch (error) {
+            Alert.alert('To use this app, please grant access to your health data.', 'Please go to settings and grant access to your health data.', [
+                {
+                    text: 'Grand Access',
+                    onPress: () => {
+                        requestHealthkitAccess()
+                    }
+                }
+            ])
+        }
+    }, [])
 
     useEffect(() => {
         rotation.value = withRepeat(
@@ -19,12 +40,8 @@ export default function AccessHealthLoadingScreen() {
             -1
         )
 
-        const timer = setTimeout(() => {
-            router.push('/(unauth)/register')
-        }, 2000)
-
-        return () => clearTimeout(timer)
-    }, [])
+        requestHealthkitAccess()
+    }, [requestHealthkitAccess])
 
     const spinnerStyle = useAnimatedStyle(() => {
         return {

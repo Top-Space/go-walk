@@ -6,8 +6,8 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { theme } from '@/utils/theme'
 import useUserStore from '@/shared/state/useUserStore'
 import { useRevenueCatStore } from '@/shared/state/useRevenueCatStore'
-import { PACKAGE_TYPE } from 'react-native-purchases'
 import errorHandler from '@/shared/lib/utils/errorHandler'
+import { PACKAGE_TYPE } from 'react-native-purchases'
 
 export default function OneTimeOfferScreen() {
     const router = useRouter()

@@ -1,15 +1,38 @@
-import { useEffect } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { useCallback, useEffect, useState } from 'react'
+import { StyleSheet, View, Text, Alert } from 'react-native'
 import { useRouter } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withTiming, Easing } from 'react-native-reanimated'
 import { theme } from '@/utils/theme'
+import { ScreenTime } from 'react-native-screen-time-api'
 
 export default function AccessScreenTimeLoadingScreen() {
     const router = useRouter()
     const insets = useSafeAreaInsets()
     const rotation = useSharedValue(0)
 
+    const grantScreenTimeAccess = useCallback(async () => {
+      try {
+        await ScreenTime.requestAuthorization('individual');
+        
+        const status = await ScreenTime.getAuthorizationStatus();
+        if (status !== 'approved') {
+          throw new Error('user denied screen time access');
+        }
+
+        router.push('/(unauth)/access-health')
+      } catch (error) {
+        Alert.alert('To use this app, please grant access to your screen time data.', 'Please go to settings and grant access to your screen time data.', [
+            {
+                text: 'Grand Access',
+                onPress: () => {
+                    grantScreenTimeAccess()
+                }
+            }
+        ])
+    }
+    }, []);
+  
     useEffect(() => {
         rotation.value = withRepeat(
             withTiming(360, {
@@ -18,14 +41,11 @@ export default function AccessScreenTimeLoadingScreen() {
             }),
             -1
         )
-
-        // Simulate loading time
-        const timer = setTimeout(() => {
-            router.push('/(unauth)/access-health')
-        }, 2000)
-
-        return () => clearTimeout(timer)
     }, [])
+
+    useEffect(() => {
+        grantScreenTimeAccess()
+    }, [grantScreenTimeAccess])
 
     const spinnerStyle = useAnimatedStyle(() => {
         return {

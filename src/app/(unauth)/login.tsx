@@ -18,7 +18,9 @@ export default function LoginScreen() {
 
             let token: string
 
-            if (Platform.OS === 'ios') {
+            if (__DEV__) {
+                token = '41232'
+            } else {
                 const credential = await AppleAuthentication.signInAsync({
                     requestedScopes: [AppleAuthentication.AppleAuthenticationScope.FULL_NAME, AppleAuthentication.AppleAuthenticationScope.EMAIL]
                 })
@@ -28,10 +30,6 @@ export default function LoginScreen() {
                 }
 
                 token = credential.identityToken
-            } else if (__DEV__) {
-                token = '41232'
-            } else {
-                throw new Error('Apple authentication is not supported on this platform')
             }
 
             await loginThrowThirdParty({ appleIdToken: token })

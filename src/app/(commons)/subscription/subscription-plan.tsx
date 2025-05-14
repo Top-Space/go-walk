@@ -58,7 +58,7 @@ export default function SubscriptionPlanScreen() {
     const handleContinue = async () => {
         try {
             await purchasePackage(selectedPlan.packageType)
-
+            
             if (user) {
                 router.push('/(auth)/dashboard')
             } else {

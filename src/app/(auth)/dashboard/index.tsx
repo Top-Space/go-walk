@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { StyleSheet, View, Text, ScrollView, Pressable, Image, Animated } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ArrowDown, ChevronLeft, ChevronRight } from 'lucide-react-native'
 import { theme } from '@/utils/theme'
 import { BarChart } from '@/components/Charts'
 import Logo from '@/components/Logo'
+import HealthKit, { HKQuantityTypeIdentifier, HKUnits } from '@kingstinct/react-native-healthkit'
 
 const weekDays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 
@@ -71,6 +72,9 @@ export default function HomeScreen() {
     const [currentDate, setCurrentDate] = useState(new Date())
     const [weekDates, setWeekDates] = useState(getWeekDates(new Date()))
 
+    const [hasRequestedAuthorization, setHasRequestedAuthorization] = useState(false)
+    const [stepCount, setStepCount] = useState(0)
+
     useEffect(() => {
         setWeekDates(getWeekDates(currentDate))
     }, [currentDate])
@@ -99,6 +103,46 @@ export default function HomeScreen() {
             setCurrentDate(today)
         }
     }
+
+    const updateStepCount = useCallback(async () => {
+        if (hasRequestedAuthorization) {
+        HealthKit.getMostRecentQuantitySample(HKQuantityTypeIdentifier.stepCount, HKUnits.Count).then((sample) => {
+                console.log('sample', sample)
+                setStepCount(sample?.quantity ?? 0)
+            })
+        }
+    }, [hasRequestedAuthorization])
+
+    useEffect(() => {
+        HealthKit.requestAuthorization([HKQuantityTypeIdentifier.stepCount]).then(() => {
+            setHasRequestedAuthorization(true);
+        });
+    }, []);
+
+    useEffect(() => {
+        updateStepCount()
+
+        let unsubscribe: (() => void) | undefined;
+
+        const subscribe = async () => {
+            if (hasRequestedAuthorization) {
+                try {
+                    unsubscribe = await HealthKit.subscribeToChanges(
+                        HKQuantityTypeIdentifier.stepCount,
+                        () => updateStepCount()
+                    );
+                } catch (error) {
+                    console.error('Failed to subscribe to heart rate changes', error);
+                }
+            }
+        };
+
+        subscribe();
+
+        return () => {
+            unsubscribe?.();
+        };
+    }, [hasRequestedAuthorization, updateStepCount]);
 
     const renderWeekCalendar = () => (
         <View>
@@ -148,12 +192,12 @@ export default function HomeScreen() {
                 <View style={styles.statsBox}>
                     <View style={styles.statsColumn}>
                         <Text style={styles.statsLabel}>Today Steps</Text>
-                        <Text style={styles.statsNumber}>2,000</Text>
+                        <Text style={styles.statsNumber}>{stepCount}</Text>
                     </View>
                     <View style={styles.divider} />
                     <View style={styles.statsColumn}>
                         <Text style={styles.statsLabel}>Social Minutes</Text>
-                        <Text style={styles.statsNumber}>20</Text>
+                        <Text style={styles.statsNumber}>{stepCount / 100}</Text>
                     </View>
                 </View>
             </View>

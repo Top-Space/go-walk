@@ -11,7 +11,17 @@
     "ios": {
       "supportsTablet": true,
       "usesAppleSignIn": true,
-      "bundleIdentifier": "host.exp.gowalk"
+      "bundleIdentifier": "host.exp.gowalk",
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        },
+        "NSFamilyControlsUsageDescription": "We need access to screen time data to help you track your device usage",
+        "NSHealthShareUsageDescription": "We need access to your health data to help you track your steps"
+      },
+      "entitlements": {
+        "com.apple.developer.family-controls": true
+      }
     },
     "web": {
       "bundler": "metro",
@@ -27,6 +37,22 @@
           "imageWidth": 192,
           "resizeMode": "contain",
           "backgroundColor": "#18171C"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static",
+            "deploymentTarget": "16.0",
+            "flipper": true
+          }
+        }
+      ],
+      [
+        "@kingstinct/react-native-healthkit",
+        {
+          "NSHealthShareUsageDescription": "We need access to your health data to help you track your steps"
         }
       ]
     ],
