@@ -1,3 +1,5 @@
+import type { PurchasesPackage } from 'react-native-purchases'
+
 export const UserRoles = {
     ADMIN: 'ADMIN',
     USER: 'USER'
@@ -9,6 +11,7 @@ export interface UserType {
     email: string
     id: string
     role: UserRole
+    freeTrialActivatedAt: Date | null
 }
 
 export const OnboardingAges = {
@@ -55,4 +58,9 @@ export interface UserInfoBaseStatistic {
     spendDaysOfYear: number
     spendYearsOfLife: number
     getBackYearsOfLife: number
+}
+
+export interface RevenueUserType {
+    packages: Array<PurchasesPackage>
+    subscriptions: Array<string>
 }

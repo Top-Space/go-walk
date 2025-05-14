@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 interface UserStore {
     user: UserType | null
     setUser: (user: UserType | null) => void
-    clearUser: () => void
+    cleanUp: () => void
 }
 
 const useUserStore = create<UserStore>()(
@@ -14,7 +14,7 @@ const useUserStore = create<UserStore>()(
         (set) => ({
             user: null,
             setUser: (user) => set({ user }),
-            clearUser: () => set({ user: null })
+            cleanUp: () => set({ user: null })
         }),
         {
             name: 'user-store',
@@ -24,6 +24,5 @@ const useUserStore = create<UserStore>()(
 )
 
 export const setUser = useUserStore.getState().setUser
-export const clearUser = useUserStore.getState().clearUser
 
 export default useUserStore
