@@ -1,9 +1,10 @@
-import { StyleSheet, View, Text, Pressable, Image } from 'react-native'
+import { StyleSheet, View, Text, Pressable, Image, Linking } from 'react-native'
 import { useRouter } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Info } from 'lucide-react-native'
 import { theme } from '@/utils/theme'
 import IosScreenTimeAlertImage from '@/assets/images/ios-screentime-alert.png'
+import { PRIVACY_POLICY_URL } from '@/shared/config/constants/urls'
 
 export default function AccessScreenTimeScreen() {
     const router = useRouter()
@@ -34,7 +35,7 @@ export default function AccessScreenTimeScreen() {
                         <Info size={16} color={theme.colors.textSecondary} />
                         <Text style={styles.securityText}>Your information is protected by Apple and will stay 100% on your phone.</Text>
                     </View>
-                    <Pressable onPress={() => {}}>
+                    <Pressable onPress={() => Linking.openURL(PRIVACY_POLICY_URL)}>
                         <Text style={styles.learnMore}>Learn More</Text>
                     </Pressable>
                 </View>

@@ -1,8 +1,9 @@
-import { StyleSheet, View, Text, Pressable, ScrollView, Alert } from 'react-native'
+import { StyleSheet, View, Text, Pressable, ScrollView, Alert, Linking } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import type { Video as LucideIcon } from 'lucide-react-native'
 import { ChevronRight, Crown } from 'lucide-react-native'
 import { theme } from '@/utils/theme'
+import { PRIVACY_POLICY_URL, TERMS_URL } from '@/shared/config/constants/urls'
 import authService from '@/shared/services/authService'
 import { deleteAccount } from '@/shared/api/auth/deleteAccount'
 
@@ -88,7 +89,17 @@ export default function ProfileScreen() {
                         <View key={section.title} style={[styles.section, sectionIndex < SECTIONS.length - 1 && styles.sectionMargin]}>
                             <Text style={styles.sectionTitle}>{section.title}</Text>
                             {section.items.map((item, index) => (
-                                <Pressable key={item.label} style={({ pressed }) => [styles.item, index < section.items.length - 1 && styles.itemBorder, pressed && styles.itemPressed]}>
+                                <Pressable 
+                                    key={item.label} 
+                                    style={({ pressed }) => [styles.item, index < section.items.length - 1 && styles.itemBorder, pressed && styles.itemPressed]}
+                                    onPress={() => {
+                                        if (item.label === 'Terms') {
+                                            Linking.openURL(TERMS_URL)
+                                        } else if (item.label === 'Privacy') {
+                                            Linking.openURL(PRIVACY_POLICY_URL)
+                                        }
+                                    }}
+                                >
                                     <Text style={styles.itemLabel}>{item.label}</Text>
                                     <View style={styles.itemValue}>
                                         {item.icon && <item.icon size={20} color={theme.colors.primary} style={styles.itemIcon} />}
