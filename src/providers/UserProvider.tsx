@@ -1,14 +1,9 @@
 import ScreenLoader from '@/components/ScreenLoader'
 import type { FC, PropsWithChildren } from 'react'
-import { useEffect } from 'react'
-import useInitUserInfo from '@/shared/lib/hooks/useInitUserInfo'
+import useInitUserData from '@/shared/lib/hooks/useInitUserData'
 
-const UserProvider: FC<PropsWithChildren> = ({ children }) => {
-    const { isLoading, initUser } = useInitUserInfo()
-
-    useEffect(() => {
-        initUser()
-    }, [])
+const UserDataProvider: FC<PropsWithChildren> = ({ children }) => {
+    const { isLoading } = useInitUserData()
 
     if (isLoading) {
         return <ScreenLoader />
@@ -17,4 +12,4 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
     return children
 }
 
-export default UserProvider
+export default UserDataProvider
