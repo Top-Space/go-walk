@@ -63,7 +63,8 @@
           "appleTeamId": "Y38GJWA4M2",
           "appGroup": "group.com.thepingapp"
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
