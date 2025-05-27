@@ -4,6 +4,8 @@ import { useFonts } from 'expo-font'
 import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } from '@expo-google-fonts/inter'
 import { SplashScreen } from 'expo-router'
 import useUserStore from '@/shared/state/useUserStore'
+import * as ExpoScreenTime from '../../modules/expo-screen-time'
+import { SafeAreaView } from 'react-native'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -28,4 +30,9 @@ export default function RootScreen() {
     }
 
     return <Redirect href={user ? '/(auth)' : '/(unauth)/welcome'} />
+    // return (
+    //     <SafeAreaView>
+    //         <ExpoScreenTime.ExpoScreenTimeView />
+    //     </SafeAreaView>
+    // )
 }

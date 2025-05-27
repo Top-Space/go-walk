@@ -9,6 +9,7 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
+      "appleTeamId": "Y38GJWA4M2",
       "supportsTablet": true,
       "usesAppleSignIn": true,
       "bundleIdentifier": "host.exp.gowalk",
@@ -17,7 +18,8 @@
           "NSAllowsArbitraryLoads": true
         },
         "NSFamilyControlsUsageDescription": "We need access to screen time data to help you track your device usage",
-        "NSHealthShareUsageDescription": "We need access to your health data to help you track your steps"
+        "NSHealthShareUsageDescription": "We need access to your health data to help you track your steps",
+        "ITSAppUsesNonExemptEncryption": false
       },
       "entitlements": {
         "com.apple.developer.family-controls": true
@@ -54,6 +56,13 @@
         {
           "NSHealthShareUsageDescription": "We need access to your health data to help you track your steps"
         }
+      ],
+      [
+        "react-native-device-activity",
+        {
+          "appleTeamId": "Y38GJWA4M2",
+          "appGroup": "group.com.thepingapp"
+        }
       ]
     ],
     "experiments": {
@@ -64,12 +73,60 @@
         "origin": false
       },
       "eas": {
-        "projectId": "958f4710-ca1f-46ac-ab86-75729571fe1c"
+        "projectId": "958f4710-ca1f-46ac-ab86-75729571fe1c",
+        "build": {
+          "experimental": {
+            "ios": {
+              "appExtensions": [
+                {
+                  "targetName": "ActivityMonitorExtension",
+                  "bundleIdentifier": "host.exp.gowalk",
+                  "entitlements": {
+                    "com.apple.developer.family-controls": true,
+                    "com.apple.security.application-groups": [
+                      "group.com.thepingapp"
+                    ]
+                  }
+                },
+                {
+                  "bundleIdentifier": "host.exp.gowalk.ShieldConfiguration",
+                  "targetName": "ShieldConfiguration",
+                  "entitlements": {
+                    "com.apple.developer.family-controls": true,
+                    "com.apple.security.application-groups": [
+                      "group.com.thepingapp"
+                    ]
+                  }
+                },
+                {
+                  "bundleIdentifier": "host.exp.gowalk.ShieldAction",
+                  "targetName": "ShieldAction",
+                  "entitlements": {
+                    "com.apple.developer.family-controls": true,
+                    "com.apple.security.application-groups": [
+                      "group.com.thepingapp"
+                    ]
+                  }
+                },
+                {
+                  "bundleIdentifier": "host.exp.gowalk.ActivityMonitorExtension",
+                  "targetName": "ActivityMonitorExtension",
+                  "entitlements": {
+                    "com.apple.developer.family-controls": true,
+                    "com.apple.security.application-groups": [
+                      "group.com.thepingapp"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
       }
     },
     "owner": "topspace",
     "android": {
-      "package": "com.topspace.boltexponativewind"
+      "package": "host.exp.gowalk"
     }
   }
 }
