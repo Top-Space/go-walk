@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Clock, Brain, TrendingUp, Calendar } from 'lucide-react-native'
 import { theme } from '@/utils/theme'
 import { useRef } from 'react'
+import Superwall, { PaywallPresentationHandler } from '@superwall/react-native-superwall'
 
 const FistBumpAnimation = () => {
     const router = useRouter()
@@ -53,7 +54,35 @@ const FistBumpAnimation = () => {
     }
 
     const handleContinue = () => {
-        router.push('/(commons)/subscription')
+        const handler = new PaywallPresentationHandler();
+
+        handler.onDismiss((paywallInfo, paywallResult) => {
+            console.log('Paywall dismissed', paywallInfo, paywallResult)
+            if (paywallResult.type === 'purchased') {
+                router.push('/(auth)/dashboard');
+            } else {
+                if (paywallInfo.presentedByEventWithName === 'limited_offer') {
+                    Superwall.shared.register({
+                        placement: 'campaign_trigger',
+                        handler: handler
+                    });
+                } else {
+                    Superwall.shared.register({
+                        placement: 'limited_offer',
+                        handler: handler
+                    });
+                }
+            }
+        });
+    
+        handler.onError((error) => {
+            console.log(`Error: ${error}`);
+        });
+    
+        Superwall.shared.register({
+            placement: 'campaign_trigger',
+            handler: handler
+        });
     }
 
     return (

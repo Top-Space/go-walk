@@ -16,7 +16,7 @@ export default function SubscriptionScreen() {
         try {
             await pushOnboardingInfo()
 
-            router.push('/(commons)/subscription/subscription-plan')
+            router.push('/(commons)/subscription/can-help')
         } catch (error) {
             errorHandler(error)
         }
