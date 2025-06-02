@@ -8,7 +8,7 @@ import DeviceActivityPicker from '@/components/DeviceActivityPicker'
 import * as ExpoScreenTime from '../../../modules/expo-screen-time'
 
 export default function AccessScreenTimeLoadingScreen() {
-    // const router = useRouter()
+    const router = useRouter()
     const insets = useSafeAreaInsets()
     const rotation = useSharedValue(0)
 
@@ -35,13 +35,14 @@ export default function AccessScreenTimeLoadingScreen() {
     // }, []);
 
     useEffect(() => {
-        rotation.value = withRepeat(
-            withTiming(360, {
-                duration: 2000,
-                easing: Easing.linear
-            }),
-            -1
-        )
+        // rotation.value = withRepeat(
+        //     withTiming(360, {
+        //         duration: 2000,
+        //         easing: Easing.linear
+        //     }),
+        //     -1
+        // )
+        router.push('/(unauth)/access-health')
     }, [])
 
     // useEffect(() => {
